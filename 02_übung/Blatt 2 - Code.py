@@ -24,6 +24,7 @@ from time import time
 h = .02  # step size in the mesh
 
 start_time = time()
+is_measuring = True 
 names = ["Nearest Neighbors", "Linear SVM", "Kernel SVM",
          "Decision Tree", "Random Forest", "Neural Net",
          "Naive Bayes"]
@@ -48,7 +49,7 @@ datasets = [make_moons(noise=0.3, random_state=0),
             linearly_separable
             ]
 
-figure = plt.figure(figsize=(27, 11))
+figure = plt.figure(figsize=(27, 11)) #if not is_measuring else None
 i = 1
 # iterate over datasets
 for ds_cnt, ds in enumerate(datasets):
@@ -69,17 +70,18 @@ for ds_cnt, ds in enumerate(datasets):
     ax = plt.subplot(len(datasets), len(classifiers) + 1, i)
     if ds_cnt == 0:
         ax.set_title("Input data")
+    if not is_measuring:
     # Plot the training points
-    ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
-               edgecolors='k')
-    # Plot the testing points
-    ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, alpha=0.6,
-               edgecolors='k')
-    ax.set_xlim(xx.min(), xx.max())
-    ax.set_ylim(yy.min(), yy.max())
-    ax.set_xticks(())
-    ax.set_yticks(())
-    i += 1
+        ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
+                edgecolors='k')
+        # Plot the testing points
+        ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, alpha=0.6,
+                edgecolors='k')
+        ax.set_xlim(xx.min(), xx.max())
+        ax.set_ylim(yy.min(), yy.max())
+        ax.set_xticks(())
+        ax.set_yticks(())
+        i += 1
 
     # iterate over classifiers
     for name, clf in zip(names, classifiers):
@@ -94,31 +96,33 @@ for ds_cnt, ds in enumerate(datasets):
         else:
             Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
 
-        # Put the result into a color plot
-        Z = Z.reshape(xx.shape)
-        ax.contourf(xx, yy, Z, cmap=cm, alpha=.8)
+        if not is_measuring:
+            # Put the result into a color plot
+            Z = Z.reshape(xx.shape)
+            ax.contourf(xx, yy, Z, cmap=cm, alpha=.8)
 
-        # Plot the training points
-        ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
-                   edgecolors='k')
-        # Plot the testing points
-        ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright,
-                   edgecolors='k', alpha=0.6)
+            # Plot the training points
+            ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
+                    edgecolors='k')
+            # Plot the testing points
+            ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright,
+                    edgecolors='k', alpha=0.6)
 
-        ax.set_xlim(xx.min(), xx.max())
-        ax.set_ylim(yy.min(), yy.max())
-        ax.set_xticks(())
-        ax.set_yticks(())
-        if ds_cnt == 0:
-            ax.set_title(name)
-        ax.text(xx.max() - .3, yy.min() + .3, ('%.2f' % score).lstrip('0'),
-                size=15, horizontalalignment='right')
-        i += 1
+            ax.set_xlim(xx.min(), xx.max())
+            ax.set_ylim(yy.min(), yy.max())
+            ax.set_xticks(())
+            ax.set_yticks(())
+            if ds_cnt == 0:
+                ax.set_title(name)
+            ax.text(xx.max() - .3, yy.min() + .3, ('%.2f' % score).lstrip('0'),
+                    size=15, horizontalalignment='right')
+            i += 1
 
 # measure time before showing the plots because they are shown 
 # until the user closes the window displaying the plots
 end_time = time()
 time_elapsed = end_time-start_time
-print(f"script ran for {time_elapsed}seconds")
-plt.tight_layout()
-plt.show() # not needed in interactive Jupyter session
+print(f"script ran for {time_elapsed} seconds")
+if not is_measuring:
+    plt.tight_layout()
+    plt.show() # not needed in interactive Jupyter session
