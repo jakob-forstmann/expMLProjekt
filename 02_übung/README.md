@@ -5,7 +5,7 @@ Dieser Ordner enthält die Lösungen für das Übungsblatt 2 It`s time for Machi
 
 
 
-# Aufgabe 1: 
+# Aufgabe a): 
 - Zeile 30 - 38: initalisiere die benutzten  ML Methoden mit ihren jeweiligen Parametern
     - Knearest Neighbor bei für die Klassifikation eines Punktes jeweils seine 3 Nachbarn berücksichtigt werden 
     - SVC mit einem linaren Kernel und einem regularization parameter $C=0.025$
@@ -35,3 +35,20 @@ Dieses Rechteck wird später genutzt um darauf die Trainings- und Testdaten zu z
   Zwei Zeilen sind in dem Abschnitt dabei besonders relevant:
   - Zeile 86: trainiere den in der aktuellen Iteration ausgewählten Classifier auf den Trainingsdaten
   - Zeile 87: hier wird evaluiert, dafür wird die durschnittliche Accuary(=Genauigkeit) des in der aktuellen Iteration ausgewählten Classifier auf den Testdaten berechnet
+
+
+# Aufgabe b):
+- ii) Das Ausführen des Skriptes hat 2.0558409690856934 Sekunden gedauert.Dabei wurde die Zeit für das Erstellen und Anzeigen der Graphen nicht miteinbezogen.
+Diese mussten für die wiederholte Messung in Schritt 3 entfernt werden da es zu einer Perfomance Warning kam. Um die Ergebnisse miteinander vergleichen zu köpnnen 
+wurde dieser Schritt auch für die einmalige Zeitmessung ignoriert.
+    Die relevanten Hardware Komponenten sind
+    - keine Grafikkarte 
+    - eine SSD 
+    - 16 GB RAM 
+    - intel CPU, 8 Kerne @1,8 GHZ
+
+- iii) Eine einmalige Zeitmessung ist nicht ausreichend denn die Zeitmessung hängt von der aktuellen Zustand der Hardware ab. Beispielsweise beeinflusst die Anzahl an gerade laufenden Prozessen    
+die aktuelle Gesamtauslastung der CPU ebenso wie ggf.gerade laufende Hinterprozesse. Für die mehrmalige Zeitmessung war die kürzeste benötigte Zeit 1.9638931640001829 Sekunden wobei insgesamt 20 
+mal gemessen wurde. Durch das mehrmalige Messen kann der Einfluss der oben genannten Faktoren verringert werden da die Messungen jeweils unter verschiedenen Zuständen der Hardware z.B. 
+unterschiedlicher CPU Auslastung zum Testzeitpunkt ablaufen. Dies könnte uns über das Testen von ML Algorithmen sagen,dass die absoluten Ausführungsdauer verschiedener ML Algorithmen nicht miteinander verglichen werden können aber beispielsweise relative Angaben wie ist 2-3x mal schneller sind durchaus möglich.
+
