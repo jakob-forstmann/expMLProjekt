@@ -20,9 +20,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-
+from time import time 
 h = .02  # step size in the mesh
 
+start_time = time()
 names = ["Nearest Neighbors", "Linear SVM", "Kernel SVM",
          "Decision Tree", "Random Forest", "Neural Net",
          "Naive Bayes"]
@@ -114,5 +115,10 @@ for ds_cnt, ds in enumerate(datasets):
                 size=15, horizontalalignment='right')
         i += 1
 
+# measure time before showing the plots because they are shown 
+# until the user closes the window displaying the plots
+end_time = time()
+time_elapsed = end_time-start_time
+print(f"script ran for {time_elapsed}seconds")
 plt.tight_layout()
 plt.show() # not needed in interactive Jupyter session
