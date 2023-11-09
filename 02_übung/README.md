@@ -28,8 +28,6 @@ Dieser Ordner enthält die Lösungen für das Übungsblatt 2 It`s time for Machi
 - Zeile 60-62: erzeugt ein (x_max -x_min) * (y_max-y_min) großes Rechteck das jede Kombinastion von x und y zwischen  (x_max -x_min) und (y_max -y_min) enthält.
 Dieses Rechteck wird später genutzt um darauf die Trainings- und Testdaten zu zeichnen.
 
-- Zeile 66-81: Zeichnet die Trainings- und Testdaten auf dem vorher erstellten Rechteck und nimmt noch eine Achseneinteilung und eine Achsenbeschriftung vor
-
 - Zeile 84 -115: iteriert über jeden oben erstellen Classifier und den Namen und
   plottet die Decision boundary,die Trainings und Testdaten und  nimmt noch eine Achseneinteilung und eine Achsenbeschriftung vor. 
   Zwei Zeilen sind in dem Abschnitt dabei besonders relevant:
@@ -52,3 +50,11 @@ die aktuelle Gesamtauslastung der CPU ebenso wie ggf.gerade laufende Hinterproze
 mal gemessen wurde. Durch das mehrmalige Messen kann der Einfluss der oben genannten Faktoren verringert werden da die Messungen jeweils unter verschiedenen Zuständen der Hardware z.B. 
 unterschiedlicher CPU Auslastung zum Testzeitpunkt ablaufen. Dies könnte uns über das Testen von ML Algorithmen sagen,dass die absoluten Ausführungsdauer verschiedener ML Algorithmen nicht miteinander verglichen werden können aber beispielsweise relative Angaben wie ist 2-3x mal schneller sind durchaus möglich.
 
+
+# Aufgabe c): 
+- i) Die Punkte aller drei Datensätze wurden in 2 Klassen,rot und blau eingeteilt und bei allen Datensätzen sind die Punkte die zum Testdatenset gehören halb transparent.
+Das zweite Datenset besteht aus zwei ineinanderverschachtelte Halbmonde wohingegen sich für das dritte Datenset die meisten Datenpunkte auf der rechten Seite für die rote Klasse bzw. auf der linken für die blaue Klasse befindet. Für das erste Datenset befinden sich die meisten Punkte für die rote Klasse in der linken oberen Ecke,die meisten Punkte für die blaue Klasse dagegen in 
+der rechten unteren Ecke.
+- ii) Die Decision Boundary für SVM teilt die Daten in Streifen auf wogegen bei Decision Tree die Decision Boundary und Random Tree eine rechteckige Form hat. Die restlichen Decision Boundaries 
+haben die Form von Kreisen
+- iii)  linear seperable ist eine Eigenschaft von 2 Mengen und zwar, dass eine Hypereben im n-dimensionalen Raum existiert die diese voneinander trennt. Von den drei Datensätzten ist nur das letzte Datenset linear separierbar 

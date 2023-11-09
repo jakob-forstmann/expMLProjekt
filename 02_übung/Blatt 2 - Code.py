@@ -22,7 +22,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 import timeit
 
-def machine_learning_algorithm(is_measuring):
+def machine_learning_algorithm(is_measuring=False):
     h = .02  # step size in the mesh
     names = ["Nearest Neighbors", "Linear SVM", "Kernel SVM",
             "Decision Tree", "Random Forest", "Neural Net",
@@ -118,9 +118,10 @@ def machine_learning_algorithm(is_measuring):
                 i += 1
 
 if __name__ =="__main__":
-    is_measuring = True
-    execution_times = timeit.Timer("machine_learning_algorithm(is_measuring)","from __main__ import machine_learning_algorithm,is_measuring").repeat(20,1)
-    print("shortest execution time",min(execution_times))
+    is_measuring = False
+    #execution_times = timeit.Timer("machine_learning_algorithm(is_measuring)","from __main__ import machine_learning_algorithm,is_measuring").repeat(20,1)
+    #print("shortest execution time",min(execution_times))
+    machine_learning_algorithm()
     if not is_measuring:
         plt.tight_layout()
         plt.show() # not needed in interactive Jupyter session
