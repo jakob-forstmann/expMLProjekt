@@ -2,31 +2,104 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from sklearn.model_selection import train_test_split
 from sklearn.datasets import make_moons, make_circles, make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
-def generate_datasets():  
-    """
-    generates three different datasets which are splitted in samples and labels.
-    returns:
-        a tuple of (X_train,y_train),each containing a list of the samples 
-        respective the labels for the datasets at the corresponding index
-    """
+def generate_datasets(random_state):
+    """generates three different datasets containing samples and labels zero or one"""
     samples, labels = make_classification(n_features=2, n_redundant=0, n_informative=2,
-                            random_state=1, n_clusters_per_class=1)
+                            random_state=random_state[0], n_clusters_per_class=1)
     rng = np.random.RandomState(2)
     samples+= 2 * rng.uniform(size=samples.shape)
     linearly_separable = (samples,labels)
-
-    datasets = [make_moons(noise=0.3, random_state=0),
-                make_circles(noise=0.2, factor=0.5, random_state=1),
+    return  [  make_moons(noise=0.3, random_state=random_state[1]),
+                make_circles(noise=0.2, factor=0.5, random_state=random_state[2]),
                 linearly_separable
-                ]
-    X_train = [ sample for sample in datasets[0]]
-    y_train = [ label  for label in datasets[1] ]
+            ]
+
+def get_train_test_datasets():  
+    training_datasets = generate_datasets(random_state=[1,0,1])
+    test_datasets = generate_datasets(random_state=[42,42,42])
+    X_train = [ sample[0]  for sample in training_datasets]
+    X_test  = [ sample[0] for sample in test_datasets]
+    y_train = [ label[1]  for label in training_datasets]
+    y_test  = [ label[1]  for label in test_datasets]
+    return (X_train,X_test,y_train,y_test)
+
+def train_classifiers(classifiers,datasets):
+    for cls,x_train,x_test,y_train,y_test in zip(classifiers,*datasets):
+        cls.fit(x_train,y_train)
+        prediction_x_test = cls.predict(x_test)
+        prediction_x_train = cls.predict(x_train)
+        x_test_score  = accuracy_score(y_test,prediction_x_test)
+        x_train_score = accuracy_score(y_train,prediction_x_train)
+        print(f"test score: {x_test_score} train score: {x_train_score}")
+    return classifiers
+
+
+def create_meshgrid(x_train):
+    """ creates a meshgrid from the training dataset"""
+    h = .02  # step size in the mesh
+    x_min, x_max = x_train[:, 0].min() - .5, x_train[:, 0].max() + .5
+    y_min, y_max = x_train[:, 1].min() - .5, x_train[:, 1].max() + .5
+    return np.meshgrid(np.arange(x_min, x_max, h),
+                        np.arange(y_min, y_max, h))
+
+def set_axis(ax,x,y):
+    ax.set_xlim(x.min(), x.max())
+    ax.set_ylim(y.min(), y.max())
+    ax.set_xticks(())
+    ax.set_yticks(())
     
-    return (X_train,y_train)
-
-
+def plot_results(optimal_classifiers,default_classifiers,*datasets):
+    figure = plt.figure(figsize=(27, 11)) 
+    position_idx =1
+    plotted_datasets_name = ["x_train","x_test"]
+    dataset_count = 0
+    for x_train,x_test,labels_train,labels_test in zip(*datasets):
+        xx,yy = create_meshgrid(x_train)
+        cm = plt.cm.RdBu
+        cm_bright = ListedColormap(['#FF0000', '#0000FF'])
+        ax = plt.subplot(3,5,position_idx)
+        if position_idx == 1:
+            ax.set_title("Input data")
+        # Plot the training points
+        ax.scatter(x_train[:, 0], x_train[:, 1], c=labels_train, cmap=cm_bright,
+                edgecolors='k')
+        # Plot the testing points
+        ax.scatter(x_test[:, 0], x_test[:, 1], c=labels_test, cmap=cm_bright, alpha=0.6,
+                edgecolors='k')
+        set_axis(ax,xx,yy)
+        position_idx+=1
+        opt_cls = optimal_classifiers[dataset_count]
+        cls = default_classifiers[dataset_count]
+        for cls in [opt_cls,cls]:    
+            for name,data,labels in zip(plotted_datasets_name,[x_train,x_test],[labels_train,labels_test]):
+                ax = plt.subplot(3,5,position_idx)
+                Z= cls.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
+                Z = Z.reshape(xx.shape)
+                ax.contourf(xx, yy, Z, cmap=cm, alpha=.8)
+                ax.scatter(data[:, 0], data[:, 1], c=labels, cmap=cm_bright,edgecolors='k')
+                set_axis(ax,xx,yy)
+                if dataset_count ==0:
+                    ax.set_title(name)
+                #ax.text(xx.max() - .3, yy.min() + .3, ('%.2f' % score).lstrip('0'),
+                #    size=15, horizontalalignment='right')
+                position_idx += 1
+        dataset_count+=1
 if __name__ =="__main__":
-    generate_datasets()
+    datasets = get_train_test_datasets()
+    optimal_classifiers = [ DecisionTreeClassifier(max_depth=5),DecisionTreeClassifier(max_depth=4),DecisionTreeClassifier(max_depth=2)]
+    print("optimal classifiers")
+    optimal_classifiers = train_classifiers(optimal_classifiers,datasets)
+    print("default classifiers")
+    default_classifiers = [DecisionTreeClassifier() for _ in range(0,3)]
+    default_classifiers = train_classifiers(default_classifiers,datasets)
+    combined_classifiers = list(zip(optimal_classifiers,default_classifiers))
+    plot_results(optimal_classifiers,default_classifiers,*datasets)
+    plt.tight_layout()
+    plt.show() 
+
+
+
