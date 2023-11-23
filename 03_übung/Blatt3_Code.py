@@ -110,5 +110,3 @@ if __name__ =="__main__":
     #plot_tree(optimal_classifiers[0],filled=True)
     plt.tight_layout()
     plt.show() 
-
-
