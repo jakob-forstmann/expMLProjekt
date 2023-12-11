@@ -12,6 +12,7 @@ Das Datenset ist verfügbar unter https://www.kaggle.com/datasets/joebeachcapita
 
 ### Anzahl der Datenpunkte:
 Das Datenset hat 23 verschiedene Attribute  mit insgesamt 32.833 verschiedene Songs. 
+Leider enthalten einige Songs für die valence Strings als Werte, sodass nach dem Aussortieren noch 32814 Songs übrig bleiben.
 Von den 23 Attributen werden 5 für die Vorhersage genutzt werden.
 
 ### Attribute 
@@ -44,5 +45,30 @@ Da es sich um ein Regression Problem  handelt sind Metriken wie accuarcy sind le
 - R2 Score 
 
 ## erwartete Performanz:
-Vermutlich lässt sich keine hohe Performanz erzielen, vielleicht so 60-65%.
-Es könnte aber auch passieren, dass die Performanz nur 50% erreicht, das Modell  würde dannn die richtige Klasse raten und wäre nicht besser als ein Random Classifier. 
+Vermutlich lässt sich keine hohe Performanz erzielen, vielleicht 60-65%.
+Es könnte aber auch passieren, dass die Performanz nur 50% erreicht, das Modell würde dannn die richtige Klasse raten und wäre nicht besser als ein Random Classifier. 
+
+
+## Beschreibung der Datensplits
+Das Datenset ist nicht gesplittet in Train/Dev/Test Anteile. Um das Datenset zu splitten,müssen zuerst
+alle nicht notwendigen Spalten gelöscht werden. Danach kann mit einer sklearn Methode das Datenset in 75% 
+Trainingsdaten und 15% Testdaten aufgeteilt werden.
+Da das Datenset wie oben beschrieben nicht in Train/Dev/Test Sets aufgeteilt ist aber das Dev Set für das 
+Training der Hyperparameter benötigt wird werde ich K fold Cross Validierung benutzten. 
+Obwohl dabei ein Teil des Trainingsdatensets für die Validierung genutzt werden muss ist dies immer noch besser
+als ein neues Validuerungsset suchen zu müssen, dass dann möglicherweise auch nicht die vorgebene Größe von 15% des 
+ursprünglichen Datensets hat.
+
+# Werteverteilung für die Spalte "valence"
+![Werteverteilung](./werte_verteilung.png)
+
+In dem Plot geht das erste Intervall über 0 hinaus, da [pd.cut]( https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.cut.html) aus der pandas Biblipthek zu dem ersten Intervall noch 0.1% dazuaddiert. 
+
+| Wertebereich als linksoffenes Intervall      | Anzahl Datenpunkte
+|----------------------------------------------|------|
+| (0, 0.198]         | 3541 |
+| (0.198, 0.396]     | 7668 |
+| (0.396, 0.595]     | 9167 |
+| (0.595, 0.793]     | 8012 |
+| (0.793, 0.991]     | 4426 |
+| gesamt             | 32814|

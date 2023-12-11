@@ -1,5 +1,6 @@
 import pandas as pd 
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 import numpy as np 
 
 def read_entire_dataset(file_name:str)-> pd.DataFrame:
@@ -30,15 +31,26 @@ def rescale_data_range(songs:pd.DataFrame,columns_to_scale:[np.array]):
     songs.where(songs[columns_to_scale]<1,songs[columns_to_scale]/1000,inplace=True)
     return songs
 
+def plot_valence_range(spotify_songs:pd.DataFrame):
+    grouped_values,bins= pd.cut(spotify_songs["valence"],bins=5,retbins=True)
+    grouped_data = spotify_songs.groupby(grouped_values,observed=False).count()
+    grouped_data = grouped_data["valence"]
+    print("grouped_data",grouped_data)
+    ax = grouped_data.plot.bar(figsize=(8,8),legend=False,rot=1)
+    ax.set_ylabel("number of datapoints")
+    ax.set_xlabel("valence range")
+    plt.show()
+
+
 def preprocess_dataset():
     columns_to_use = ["danceability","tempo","loudness","mode","track_album_name","valence"]
     spotify_songs_complete  = read_entire_dataset("../data/spotify_songs.csv")
     spotify_songs  = keep_necessary_columns(spotify_songs_complete,columns_to_use)
     spotify_songs  = rescale_data_range(spotify_songs,["danceability","valence"])
-    spotify_songs.to_csv("cleaned_data")
-    grouped_data = spotify_songs.groupby(columns_to_use).count()
-    #print(spotify_songs.head(4))
-    grouped_data.to_csv("overview")
+    return spotify_songs
 
 if __name__=="__main__":
-    preprocess_dataset()
+    spotify_songs = preprocess_dataset()
+    train,test = split_data(spotify_songs)
+    save_splitted_data([train,test],["spotify_dataset_train","spotify_dataset_test"])
+    plot_valence_range(spotify_songs)
