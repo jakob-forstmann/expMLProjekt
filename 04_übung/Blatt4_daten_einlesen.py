@@ -5,7 +5,7 @@ import numpy as np
 
 def read_entire_dataset(file_name:str)-> pd.DataFrame:
     # the columns accoustiness,liveness and valence contain european 
-    # decimals(, but only the column valence is revelant here
+    # decimals(,) but only the column valence is revelant here
     converter = {"valence":lambda x:np.float64(x.replace(",","."))}
     return pd.read_csv(file_name,converters=converter)
 
@@ -35,7 +35,6 @@ def plot_valence_range(spotify_songs:pd.DataFrame):
     grouped_values,bins= pd.cut(spotify_songs["valence"],bins=5,retbins=True)
     grouped_data = spotify_songs.groupby(grouped_values,observed=False).count()
     grouped_data = grouped_data["valence"]
-    print("grouped_data",grouped_data)
     ax = grouped_data.plot.bar(figsize=(8,8),legend=False,rot=1)
     ax.set_ylabel("number of datapoints")
     ax.set_xlabel("valence range")
