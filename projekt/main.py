@@ -21,10 +21,15 @@ def evaluate(model,X_train,y_train,x_test,y_test):
     cv_score = cross_validate(model,X_train,y_train,cv=5,scoring=evaluation_metrics,return_train_score=True)
     print("Training Dataset:")
     print(f"Model{model}: root mean squarred error",cv_score["train_neg_root_mean_squared_error"])
+    print("mean across 5 folds",cv_score["train_neg_root_mean_squared_error"].mean())
     print(f"Model{model}: mean absolute error",cv_score["train_neg_mean_absolute_error"])
+    print("mean across 5 folds",cv_score["train_neg_mean_absolute_error"].mean())
     print("Test Dataset:")
     print(f"Model{model}: root mean squarred error",cv_score["test_neg_root_mean_squared_error"])
+    print("mean across 5 folds",cv_score["test_neg_mean_absolute_error"].mean())
     print(f"Model{model}: mean absolute error",cv_score["test_neg_mean_absolute_error"])
+    print("mean across 5 folds",cv_score["test_neg_mean_absolute_error"].mean())
+
 
 if __name__=="__main__":
     spotify_songs = create_dataset()
