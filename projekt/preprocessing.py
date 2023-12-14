@@ -45,7 +45,7 @@ def vectorize_album_name(album_names:list[str]):
 
 def create_dataset():
     columns_to_use = ["danceability","track_album_name","tempo","loudness","mode","valence"]
-    spotify_songs_complete  = read_entire_dataset("../data/spotify_songs.csv")
+    spotify_songs_complete  = read_entire_dataset("data/spotify_songs.csv")
     spotify_songs  = keep_necessary_columns(spotify_songs_complete,columns_to_use)
     spotify_songs  = rescale_data_range(spotify_songs,["danceability","valence"])
     return spotify_songs
