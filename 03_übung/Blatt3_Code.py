@@ -39,9 +39,8 @@ def train_classifiers(classifiers,datasets):
 def test_max_depths(datasets,classifiers):
     all_train_scores = []
     all_test_scores = []
-    for current_max_depth,cls in enumerate(classifiers):
+    for cls in classifiers:
         classifiers = [ cls for _ in range(0,len(datasets))]
-        #print(f"accuracy with max depth{current_max_depth}")
         train_scores,test_scores = train_classifiers(classifiers,datasets)
         all_train_scores.extend(train_scores)
         all_test_scores.extend(test_scores)    
@@ -52,9 +51,6 @@ def find_optimal_max_depth(test_accuracy_scores):
     comparing the test accuracy scores
     for each dataset"""
     accuracy_moons,accuracy_circles,accuracy_linear = get_scores_for_datasets(test_accuracy_scores)
-    print(f"accuracy moons:{max(accuracy_moons)}")
-    print(f"accuracy circles:{max(accuracy_circles)}") 
-    print(f"accuracy linear:{max(accuracy_linear)}")
     # add 1 because first entry tests with max_depth 1 
     max_depth_moons = np.argmax(accuracy_moons)+1
     max_depth_circles = np.argmax(accuracy_circles)+1
@@ -81,13 +77,13 @@ def set_axis(ax,x,y):
 def plot_results(classifiers,datasets):
     figure = plt.figure(figsize=(27, 11)) 
     position_idx =1
-    plotted_datasets_name = [ "X_train with maximum depth","X_test with maximum depth",
-                              "X_train with default values","X_test with default values",
+    plotted_datasets_name = [ "X_train with default depth","X_test with default depth",
+                              "X_train with max depth","X_test with max depth",
                             ]
     dataset_count = 0
     for pair_of_cls,dataset in zip(classifiers,datasets):
         X,y = dataset
-        X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.5,random_state=0)
+        X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.5,random_state=42)
         xx,yy = create_meshgrid(X_train)
         cm = plt.cm.RdBu
         cm_bright = ListedColormap(['#FF0000', '#0000FF'])
@@ -105,8 +101,8 @@ def plot_results(classifiers,datasets):
         cls_name_idx = 0
         for cls in pair_of_cls:
             cls.fit(X_train,y_train)
-            score = cls.score(X_test, y_test)
             for data,labels in zip([X_train,X_test],[y_train,y_test]):
+                score = cls.score(data,labels)
                 ax = plt.subplot(3,5,position_idx)
                 Z= cls.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
                 Z = Z.reshape(xx.shape)
@@ -114,8 +110,8 @@ def plot_results(classifiers,datasets):
                 ax.scatter(data[:, 0], data[:, 1], c=labels, cmap=cm_bright,edgecolors='k')
                 set_axis(ax,xx,yy)
                 name = plotted_datasets_name[cls_name_idx]
-                # first or second column or entire first row 
-                if cls_name_idx in(0,1) or dataset_count==0:
+                # entire first row 
+                if dataset_count==0:
                     ax.set_title(name)
                 ax.text(xx.max() - .3, yy.min() + .3, ('%.2f' % score).lstrip('0'),
                         size=15, horizontalalignment='right')
@@ -123,37 +119,63 @@ def plot_results(classifiers,datasets):
                 cls_name_idx+=1
         dataset_count+=1
 
+def create_accuray_plot(accuracy_scores,is_test_data=False):
+    accuracy_moons = accuracy_scores[0::3]
+    accuracy_circles = accuracy_scores[1::3]
+    accuracy_linear = accuracy_scores[2::3]
+    max_depth = list(range(1, 15))
+    plot_title = "Test Data" if is_test_data else "Training Data"
+    plt.figure(figsize=(12, 6))
+    plt.plot(max_depth, accuracy_moons, marker='o', linestyle='-',linewidth=3,color='b', label='make_moons')
+    plt.plot(max_depth, accuracy_circles, marker='o', linestyle='-', linewidth=3,color='r', label='make_circles')
+    plt.plot(max_depth, accuracy_linear, marker='o', linestyle='-',linewidth=3,color='g', label='linear seperable')
+    plt.xlabel('Max Depth')
+    plt.ylabel('Accuracy')
+    plt.title(plot_title)
+    plt.xticks(max_depth)
+    plt.legend(loc="lower right")
+    plt.ylim(0,1.2)
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ =="__main__":
     datasets = generate_datasets()
-    experimental_decision_trees = [DecisionTreeClassifier(max_depth=i) for i in range(1,15)]
-    experimental_random_forests = [RandomForestClassifier(max_depth=i,random_state=42) for i in range(1,15)]
-    train_acc_dct,test_acc_dct = test_max_depths(datasets,experimental_decision_trees)
+    exp_decision_trees = [  DecisionTreeClassifier(max_depth=i) 
+                            for i in range(1,15)]
+    exp_random_forests = [  RandomForestClassifier(max_depth=i,random_state=42) 
+                            for i in range(1,15)]
+    train_acc_dct,test_acc_dct = test_max_depths(datasets,exp_decision_trees)
     max_depth_moons_dct,max_depth_circles_dct,max_depth_linear_dct = find_optimal_max_depth(test_acc_dct)
-
     print("Maximum depth for Decision Trees:")
     print(f"moons:{max_depth_moons_dct} circles:{max_depth_circles_dct} linear:{max_depth_linear_dct}")
-  
-
     optimal_decision_trees = [  DecisionTreeClassifier(max_depth=max_depth_moons_dct),
                                 DecisionTreeClassifier(max_depth=max_depth_circles_dct),
                                 DecisionTreeClassifier(max_depth=max_depth_linear_dct)]
+    
+    _,test_scores = train_classifiers(optimal_decision_trees,datasets)
+    print("optimal decision tree",test_scores)
+    create_accuray_plot(train_acc_dct)
+    create_accuray_plot(test_acc_dct,is_test_data=True)
 
-    train_acc_rdf,test_acc_rdf = test_max_depths(datasets,experimental_random_forests)    
+    train_acc_rdf,test_acc_rdf = test_max_depths(datasets,exp_random_forests)    
     max_depth_moons_rdf,max_depth_circles_rdf,max_depth_linear_rdf = find_optimal_max_depth(test_acc_rdf)
-    print(f"Random Forest: maximum depths moons:{max_depth_moons_rdf}_rdf circles:{max_depth_circles_rdf} linear:{max_depth_linear_rdf}")
+    print("Random Forest: maximum depths:")
+    print(f"moons dataset{max_depth_moons_rdf}_rdf circles:{max_depth_circles_rdf} linear:{max_depth_linear_rdf}")
     optimal_random_forests = [  RandomForestClassifier(max_depth=max_depth_moons_rdf,random_state=42),
                                 RandomForestClassifier(max_depth=max_depth_circles_rdf,random_state=42),
                                 RandomForestClassifier(max_depth=max_depth_linear_rdf,random_state=42)]
     
+    print("optimal random forests",train_classifiers(optimal_random_forests,datasets))
     default_decision_trees = [DecisionTreeClassifier() for _ in range(0,3)]
     default_random_forest = [RandomForestClassifier() for _ in range(0,3)]
     decision_tree_clfs = list(zip(default_decision_trees,optimal_decision_trees))
     random_forest_clfs = list(zip(default_random_forest,optimal_random_forests))
+    create_accuray_plot(train_acc_rdf)
+    create_accuray_plot(test_acc_rdf,is_test_data=True)
     #plot_results(decision_tree_clfs,datasets)
     #plot_results(random_forest_clfs,datasets)
-    #plot_tree(optimal_classifiers[0],filled=True)
+    #plot_tree(optimal_decision_trees[0],filled=True)
     #plt.tight_layout()
     #plt.show() 
     

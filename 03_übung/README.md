@@ -6,14 +6,34 @@ Dieser Ordner enthält die Lösungen für das Übungsblatt 3 Decision Trees
 ### Welche Vorhesagen macht der Classifier ?
   Der Decision Tree Classifier sagt für die drei Datensets jeweils das Label 0 oder 1 für jedes sample aus X_train vorraus.
 
-### berechnete Genauigkeiten(accuracy) auf den drei verschiedenen Datensets
+### Accuracy auf den drei verschiedenen Datensets mit dem Default Parametern 
+
 |Datenset                         |Genauigkeit auf X_test   |Genauigkeit auf X_train|
 |:---------------------------------:|:----------------------:|:--------------------:| 
-| make_moons                      | 0.89                 | 1.0                |
-| make_circles                  | 0.82                 | 1.0                |
-| linear seperierbares Datenset | 0.5                | 1.0                |
+| make_moons                      | 0.92               | 0.98 
+| make_circles                  | 0.8                 | 0.9 
+| linear seperierbares Datenset | 0.96               | 0.96              |
 
-Für das erste Datenset sind 89%, für das zweite Datenset 82% und für das dritte Datenset 50% der Vorhersagen richtig.
+Für das erste Datenset sind 92%, für das zweite Datenset 80% und für das dritte Datenset 96% der Vorhersagen richtig.
+
+
+### Plots
+#### Decision Tree
+
+![](decision_tree_overview.png)
+
+
+![training accuray](decision_tree_train_accuracy.png)
+![test accuracy](decision_tree_test_accuracy.png)
+
+Random Forest
+![](random_forest_overview.png)
+
+![training accuray](random_forest_train_accuracy.png)
+![test accuracy](random_forest_test_accuracy.png)
+
+Decision Tree mit optimaler Tiefe für das Datenset make moons:
+![](plotted_decision_tree.png)
 
 ### Was bedeutet eine optimale maximale Tiefe ? Bezieht sich das optimal auf das Test oder auf das Trainingsdatenset ? 
 Eine optimale Tiefe des Decision Tree bedeutet, dass die Genauigkeit auf dem Testdatenset möglichst hoch ist,denn ein
@@ -36,7 +56,7 @@ dass in diesem Fall 100 verschiedene Decision Trees kombiniert wurden die jeder 
 
 
 ## mögliche Projektidee
-- Problem: Stimmung(fröhlich,traurig..) eines Songs vorhersagen 
+- Problem: Die Stimmung eines Songs als Wert zwischen 0 und 1 vorhersagen 
 - Features:Geschwindigkeit in bpm,Lautstärke,Tanzbarkeit und vielleicht noch die Tonart und Songname 
 - Repräsentation: 
   - als double zwischen 0 und 1:Stimmung,Geschwindigkeit,Lautstärke,Tanzbarkeit, dabei gilt je höher der Wert desto höher ist das Attriut ausgeprägt 
