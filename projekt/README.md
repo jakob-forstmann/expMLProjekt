@@ -32,8 +32,30 @@ Alle Metriken wurden mit 5 facher Kreuzvalidierung durchgeführt
 Dabei negiert sklearn den Mean squared error und den absoluten Fehler
 sodass höhere Fehler besser sind.
 
-negativer Mean squared error auf dem Trainingsdatenset
-| Baseline | Fehler| Durschnittlicher Fehler über alle 5 Folds|
-|----------:|:-----|--------------|
-| Mean Baseline| -0.23278676|-0.2325633174
-| Majority Baseline|-0.23167599|-0.195415817
+negativer root Mean squared error:
+| Baseline |Durschnitt über 5 Folds|Datenset
+|----------|:--------------|----|
+| Mean Baseline| -0.2325| Train
+| Mean Baseline| -0.1954| Test
+| Majority Baseline|-0.5078| Train 
+| Majority Baseline | -0.4515| Test 
+| Random Baseline mit zufälliger valence 0.131|-0.4443 |Train
+| Random Baseline mit zufälliger valence 0.131| -0.3831| Test
+
+negativer absolute error: 
+
+| Baseline |Durschnitt über 5 Folds|Datenset
+|----------|:--------------|----|
+| Mean Baseline| -0.1954| Train
+| Mean Baseline| -0.1954| Test
+| Majority Baseline|-0.4515| Train 
+| Majority Baseline | -0.4515| Test 
+| Random Baseline zufälliger valence 0.131|-0.3831 |Train
+| Random Baseline mit zufälliger valence 0.131| -0.3831| Test
+
+
+Wie erwartet, sind die Metriken höher auf dem Trainingsdaten als auf dem Testdaten. Das liegt daran, dass alle Baselines 
+darauf gefittet wurden weshalb z.B. bei der Majority Baseline immer der häufigste Wert des Trainingsdatenset vorrausgesagt wird. 
+Die Mean Baseline hat dabei für beide Metriken am besten performt, da beide Metriken die Distanz zwischen den tatsächlicneWert und den vorhersagten Wert berechnen 
+und  der Durschnitt etwa 0.51 ist, was in dem Intervall der häufigsten Werte liegt. Aus dem gleichen Grund hat die Majority Baseline am schlechtsten performt denn 
+der häufigste Wert für die Valence liegt bei 0.961.
