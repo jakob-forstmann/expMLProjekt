@@ -37,4 +37,14 @@ class  Mean_Baseline(metaclass=Estimator):
     def __str__(self):
         return "Mean Baseline"
 
+class Random_Baseline(metaclass=Estimator):
+    def __init__(self):
+        spotify_songs = create_dataset()
+        distribution = count_unique_valence_values(spotify_songs)
+        distribution_probs = distribution.values/distribution.sum()
+        self.random_valence = random.choice(distribution.index,p=distribution_probs)
+        self.model =  DummyRegressor(strategy="constant",constant=self.random_valence)
+
+    def __str__(self):
+        return f"Random Baseline with random value {self.random_valence}"
 

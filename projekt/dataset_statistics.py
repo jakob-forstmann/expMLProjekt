@@ -11,6 +11,10 @@ def plot_valence_range(spotify_songs:pd.DataFrame):
     plt.show()
 
 def calculate_most_frequent_value(spotify_songs:pd.DataFrame):
-    unique_combinations = spotify_songs.groupby("valence").size().sort_values(ascending=False)
-    unique_combinations.to_csv("combinations_of_values")
+    unique_combinations = count_unique_valence_values(spotify_songs)
     return unique_combinations.index[0]
+
+def count_unique_valence_values(spotify_songs):
+    unique_combinations = spotify_songs.groupby("valence").size().sort_values(ascending=False)
+    unique_combinations.to_csv("combinations_of_values.csv")
+    return unique_combinations

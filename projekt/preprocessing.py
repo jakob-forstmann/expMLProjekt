@@ -7,7 +7,6 @@ import numpy as np
 def read_entire_dataset(file_name:str)-> pd.DataFrame:
     # the columns accoustiness,liveness and valence contain european 
     # decimals(,) but only the column valence is revelant here
-    print("read entire dataset")
     converter = {"valence":lambda x:np.float64(x.replace(",","."))}
     return pd.read_csv(file_name,converters=converter)
 
