@@ -12,6 +12,10 @@ class Estimator(type):
         cls.possible_estimators[class_name] = specific_estimator
         return specific_estimator
 
+    @classmethod
+    def get_estimators(cls):
+        return cls.possible_estimators
+
     def fit(self,x_train,x_test,y_train,y_test):
         return self.model.fit(x_train,x_test)
 
@@ -22,8 +26,7 @@ class Estimator(type):
 
 class Majority_Baseline(metaclass=Estimator):
     def __init__(self):
-        spotify_songs = create_dataset()
-        self.frequent_value = calculate_most_frequent_value(spotify_songs)
+        self.frequent_value = calculate_most_frequent_value()
         self.model = DummyRegressor(strategy="constant",constant=self.frequent_value)
 
     def __str__(self):
@@ -39,8 +42,7 @@ class  Mean_Baseline(metaclass=Estimator):
 
 class Random_Baseline(metaclass=Estimator):
     def __init__(self):
-        spotify_songs = create_dataset()
-        distribution = count_unique_valence_values(spotify_songs)
+        distribution = count_unique_valence_values()
         distribution_probs = distribution.values/distribution.sum()
         self.random_valence = random.choice(distribution.index,p=distribution_probs)
         self.model =  DummyRegressor(strategy="constant",constant=self.random_valence)

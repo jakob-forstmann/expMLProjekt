@@ -14,10 +14,11 @@ def keep_necessary_columns(songs:pd.DataFrame,columns_to_keep:[str]):
     return songs[columns_to_keep]
 
 def split_data(songs:pd.DataFrame):
-    album_names = songs["track_album_name"].values
-    songs["track_album_name"] = vectorize_album_name(album_names)
-    X = songs.loc[:,songs.columns!="valence"]
-    labels = songs["valence"]
+    #album_names = songs["track_album_name"].values
+    #songs["track_album_name"] = vectorize_album_name(album_names)
+    songs.drop(columns=["track_album_name"],inplace=True)
+    X = np.array(songs.loc[:,songs.columns!="valence"])
+    labels = np.array(songs["valence"])
     return train_test_split(X,labels,test_size=0.25,random_state=42)
 
 def save_splitted_data(splitted_datasets:[np.array],file_names:[str]):
