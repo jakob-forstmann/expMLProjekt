@@ -14,7 +14,7 @@ als ein neues Validuerungsset suchen zu müssen, dass dann möglicherweise auch 
 ursprünglichen Datensets hat.
 
 ## Werteverteilung für die Spalte "valence"
-![Werteverteilung](./werte_verteilung.png)
+![.Werte_verteilung](plots/valence_distribution.png)
 
 In dem Plot geht das erste Intervall über 0 hinaus, da [pd.cut]( https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.cut.html) aus der pandas Biblipthek zu dem ersten Intervall noch 0.1% dazuaddiert. 
 
@@ -27,35 +27,38 @@ In dem Plot geht das erste Intervall über 0 hinaus, da [pd.cut]( https://pandas
 | (0.793, 0.991]     | 4426 |
 | gesamt             | 32814|
 
+
+Es gibt insgesamt 1362 verschiedene Werte für die Valence, davon aber nur 68 verschiedene. Dabei treten 247 Werte nur einmal auf 
+112 Werte nur 2x mal und 71 Werte nur 3x mal auf. 
+
+Anzahl Datenpunkte pro Häufigkeit:
+![Werteverteilung](plots/datapoints_per_frequency.png)
+
+Die 20 häufigsten Werte für die Valence:
+![Werteverteilung](plots/20_most_frequent_values.png)
+
 ## Evaluierung der Baselines:
 Alle Metriken wurden mit 5 facher Kreuzvalidierung durchgeführt
-Dabei negiert sklearn den Mean squared error und den absoluten Fehler
-sodass höhere Fehler besser sind.
+Dabei benutzt sklearn für die Kreuzvalidierung den negatierten Fehler
+für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
 
-negativer root Mean squared error:
-| Baseline |Durschnitt über 5 Folds|Datenset
+(negativer) root Mean squared error:
+| Baseline |Durschnitt über 5 Folds| Score auf dem Testdatenset
 |----------|:--------------|----|
-| Mean Baseline| -0.2325| Train
-| Mean Baseline| -0.1954| Test
-| Majority Baseline|-0.5078| Train 
-| Majority Baseline | -0.4515| Test 
-| Random Baseline mit zufälliger valence 0.131|-0.4443 |Train
-| Random Baseline mit zufälliger valence 0.131| -0.3831| Test
+| Mean Baseline| -0.2325| 0.2348|
+| Majority Baseline|-0.5078|0.5056
+| Random Baseline mit zufälliger valence 0.402| -0.2550 | 0.2598
 
-negativer absolute error: 
+(negativer) absolute error: 
 
-| Baseline |Durschnitt über 5 Folds|Datenset
+| Baseline |Durschnitt über 5 Folds|Score auf dem Testdatenset
 |----------|:--------------|----|
-| Mean Baseline| -0.1954| Train
-| Mean Baseline| -0.1954| Test
-| Majority Baseline|-0.4515| Train 
-| Majority Baseline | -0.4515| Test 
-| Random Baseline zufälliger valence 0.131|-0.3831 |Train
-| Random Baseline mit zufälliger valence 0.131| -0.3831| Test
+| Mean Baseline| -0.1954| 0.1976
+| Majority Baseline|-0.4515| 0.4479
+| Random Baseline zufälliger valence 0.402|-0.2119 |0.21558|
 
 
-Wie erwartet, sind die Metriken höher auf dem Trainingsdaten als auf dem Testdaten. Das liegt daran, dass alle Baselines 
-darauf gefittet wurden weshalb z.B. bei der Majority Baseline immer der häufigste Wert des Trainingsdatenset vorrausgesagt wird. 
-Die Mean Baseline hat dabei für beide Metriken am besten performt, da beide Metriken die Distanz zwischen den tatsächlicneWert und den vorhersagten Wert berechnen 
-und  der Durschnitt etwa 0.51 ist, was in dem Intervall der häufigsten Werte liegt. Aus dem gleichen Grund hat die Majority Baseline am schlechtsten performt denn 
-der häufigste Wert für die Valence liegt bei 0.961.
+Beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten valence und der tatsächlichen valence des aktuellen Songs angeben in rationalen Zahlen zwischen 0 und 1 ist. Eine niedriger Wert bedeutet dabei,dass die Vorhersage des Modells recht gut war da die Differenz zwischen dem vorhergesagten und der Gold valence gering ist.
+Die Mean Baseline hat dabei für beide Metriken am besten performt, da der Durschnitt etwa 0.51 ist und wiederum im Intervall der häufigsten Werte ist.
+Die Majority Baseline hat am schlechsten abgeschnitten denn nur der häufigst Wert für die Valence,0.961 der 69x mal vorkommt liegt nicht in dem liegen nicht in dem häufigsten Intervall.
+Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt vorkommen ist dies eine weiterer Grund für das schlechtere Abschneiden der Majority Baseline.
