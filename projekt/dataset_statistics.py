@@ -23,7 +23,7 @@ def plot_valence_frequencies():
     grouped_frequencies2 = grouped_frequencies[3:]
     plot_bar(grouped_frequencies2,"number of occurence","frequency")
 
-def plot_training_error(error_scores,parameter,plot_title,x_label,y_label):
+def plot_error_scores(error_scores,parameter,plot_title,x_label,y_label):
     plt.figure(figsize=(12, 6))
     plt.plot(parameter, error_scores, marker='o', linestyle='-',linewidth=3,color='b')
     plt.xlabel(x_label)
