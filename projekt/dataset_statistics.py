@@ -35,8 +35,6 @@ def plot_error_scores(error_scores,parameter,plot_title,x_label,y_label):
     plt.grid(True)
     plt.show()
 
-
-
 def calculate_most_frequent_value():
     unique_combinations = count_unique_valence_values()
     return unique_combinations.index[0]
