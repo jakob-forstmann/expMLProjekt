@@ -25,13 +25,18 @@ def plot_valence_frequencies():
 
 def plot_error_scores(error_scores,parameter,plot_title,x_label,y_label):
     plt.figure(figsize=(12, 6))
-    plt.plot(parameter, error_scores, marker='o', linestyle='-',linewidth=3,color='b')
+    first_error_scores = error_scores.iloc[:,0]
+    second_error_scores = error_scores.iloc[:,1]
+    print("first",first_error_scores)
+    print("max",parameter)
+    #print("sec",second_error_scores)
+    plt.plot(parameter, first_error_scores, marker='o', linestyle='-',linewidth=3,color='b')
+    #plt.plot(parameter, second_error_scores, marker='o', linestyle='-', linewidth=3,color='r')
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(plot_title)
     plt.xticks(parameter)
     #plt.legend()
-    plt.ylim(0,1.2)
     plt.grid(True)
     plt.show()
 

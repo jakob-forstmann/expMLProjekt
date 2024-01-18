@@ -3,7 +3,6 @@ from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 from preprocessing import create_dataset,split_data
 from dataset_statistics import plot_error_scores
