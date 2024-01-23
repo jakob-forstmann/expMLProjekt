@@ -14,9 +14,6 @@ def keep_necessary_columns(songs:pd.DataFrame,columns_to_keep:[str]):
     return songs[columns_to_keep]
 
 def split_data(songs:pd.DataFrame):
-    #album_names = songs["track_album_name"].values
-    #songs["track_album_name"] = vectorize_album_name(album_names)
-    #songs.drop(columns=["track_album_name"],inplace=True)
     X = songs.loc[:,songs.columns!="valence"]
     labels = songs["valence"]
     return train_test_split(X,labels,test_size=0.25,random_state=42)
@@ -39,15 +36,6 @@ def rescale_data_range(songs:pd.DataFrame,columns_to_scale:[np.array]):
     songs = remove_strings_from_numeric_columns(songs)
     songs.where(songs[columns_to_scale]<1,songs[columns_to_scale]/1000,inplace=True)
     return songs
-
-def vectorize_album_name(album_names:list[str]):
-    """represents each track_album name using tf-idf
-    returns a list with the representation for each track album name
-    """
-    vectorizer = TfidfVectorizer()
-    # each song is a document, the track_album_name is the term
-    document_term_matrix =  vectorizer.fit_transform(album_names)
-    return list(document_term_matrix.toarray())
 
 @cache
 def create_dataset():

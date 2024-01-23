@@ -65,8 +65,8 @@ Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Inter
 
 
 # verschiedene Feature Kombinationen 
-Alle Feature Kombinationen wurden mit einem Decision Tree und mit beiden Evaluationsmetriken evaluiert.
 
+## Kombinationen von 4 Features 
 | Feature Kombination | relativer Unterschied zu einem DT mit allen Features | RMSE bei allen Features mit max_depth=7 |RMSE bei der Feature Kombination mit max_depth=7|
 |---------------------| ------------------------------------------------------|-------------------------------|-----------------------------------|
 | danceability, track_album_name, tempo, loudness| weniger als 0.01| -0,214282700637873| -0,2142479455475|
@@ -76,4 +76,6 @@ Alle Feature Kombinationen wurden mit einem Decision Tree und mit beiden Evaluat
 | track_album_name, tempo, loudness, mode| weniger als 0.05|-0,214282700637873|-0,225688084349699|
 
 
-
+Alle Feature Kombinationen wurden auf einem Decision Tree
+mit den beiden Evaluationsmetriken und 5-facher Kreuzvalidierung evaluiert.
+Der angebene RMSE ist dabei der Durschnitt über die 5 Folds.
