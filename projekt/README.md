@@ -10,7 +10,7 @@ Trainingsdaten und 15% Testdaten aufgeteilt werden.
 Da das Datenset wie oben beschrieben nicht in Train/Dev/Test Sets aufgeteilt ist aber das Dev Set für das 
 Training der Hyperparameter benötigt wird werde ich K fold Cross Validierung benutzten. 
 Obwohl dabei ein Teil des Trainingsdatensets für die Validierung genutzt werden muss ist dies immer noch besser
-als ein neues Validuerungsset suchen zu müssen, dass dann möglicherweise auch nicht die vorgebene Größe von 15% des 
+als ein neues Validierungsset suchen zu müssen, dass dann möglicherweise auch nicht die vorgebene Größe von 15% des 
 ursprünglichen Datensets hat.
 
 ## Werteverteilung für die Spalte "valence"
@@ -62,3 +62,18 @@ Beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten va
 Die Mean Baseline hat dabei für beide Metriken am besten performt, da der Durschnitt etwa 0.51 ist und wiederum im Intervall der häufigsten Werte ist.
 Die Majority Baseline hat am schlechsten abgeschnitten denn nur der häufigst Wert für die Valence,0.961 der 69x mal vorkommt liegt nicht in dem liegen nicht in dem häufigsten Intervall.
 Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt vorkommen ist dies eine weiterer Grund für das schlechtere Abschneiden der Majority Baseline.
+
+
+# verschiedene Feature Kombinationen 
+Alle Feature Kombinationen wurden mit einem Decision Tree und mit beiden Evaluationsmetriken evaluiert.
+
+| Feature Kombination | relativer Unterschied zu einem DT mit allen Features | RMSE bei allen Features mit max_depth=7 |RMSE bei der Feature Kombination mit max_depth=7|
+|---------------------| ------------------------------------------------------|-------------------------------|-----------------------------------|
+| danceability, track_album_name, tempo, loudness| weniger als 0.01| -0,214282700637873| -0,2142479455475|
+| danceability, track_album_name, tempo, mode| weniger als 0.03|-0,214282700637873|-0,214716215132004|-0,217908397257487|
+| danceability, track_album_name, loudness, mode| weniger als 0.04|-0,214282700637873|-0,217908397257487|
+| danceability, tempo, loudness, mode| weniger als 0.05|-0,214282700637873| -0,215031645754395|
+| track_album_name, tempo, loudness, mode| weniger als 0.05|-0,214282700637873|-0,225688084349699|
+
+
+
