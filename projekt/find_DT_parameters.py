@@ -53,13 +53,20 @@ def optimize_min_split_samples():
     spotify_songs = create_dataset()
     X_train,_,y_train,_ = split_data(spotify_songs)
     piped_model = prepare_DT()
-    piped_model.set_params(decision_tree__max_depth=7)
-    for i in range(2,20):
-        piped_model.set_params(decision_tree__min_samples_split=i)
-        results = evaluate_experiments(X_train,y_train)
-        results.to_csv(f"evaluation_parameter/min_samples{i}")
+    piped_model.set_params(model__max_depth=7)
+    RMSE_results = []
+    MEA_results = []
+    for i in range(2,100):
+        piped_model.set_params(model__min_samples_split=i)
+        results = evaluate_experiments(piped_model,X_train,y_train)
+        RMSE_results.append(results["test_neg_root_mean_squared_error"].mean())
+        MEA_results.append(results["test_neg_mean_absolute_error"].mean())
+    RMSE_results = pd.Series(RMSE_results)
+    MEA_results = pd.Series(MEA_results)
+    print(f"RMSE mean across different min_samples_split {RMSE_results.mean()} std {RMSE_results.std()}")
+    print(f" MEA  mean across different min_samples_split {RMSE_results.mean()} std {RMSE_results.std()}")
 
                     
 if __name__ =="__main__":
-   optimze_splitter()
+   optimize_min_split_samples()
     
