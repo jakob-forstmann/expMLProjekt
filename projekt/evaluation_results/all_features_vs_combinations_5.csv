@@ -1,0 +1,6 @@
+Feature Kombination,relativer Unterschied zu einem DT mit allen Features,RMSE bei allen Features mit max_depth=7,RMSE bei der Feature Kombination mit max_depth=7
+"danceability, track_album_name, tempo, loudness",< als 0.01,-0.214282700637873,-0.2142479455475
+"danceability, track_album_name, tempo, mode",< als 0.03,-0.214282700637873,-0.214716215132004
+"danceability, track_album_name, loudness, mode",< als 0.04,-0.214282700637873,-0.217908397257487
+"danceability, tempo, loudness, mode",< als 0.05,-0.214282700637873,-0.215031645754395
+"track_album_name, tempo, loudness, mode",< als 0.05,-0.214282700637873,-0.225688084349699

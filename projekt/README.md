@@ -66,21 +66,23 @@ Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Inter
 
 ## Experimente  
 
-### Kombinationen von 4 Features 
-| Feature Kombination | relativer Unterschied zu einem DT mit allen Features | RMSE bei allen Features mit max_depth=7 |RMSE bei der Feature Kombination mit max_depth=7|
-|---------------------| ------------------------------------------------------|-------------------------------|-----------------------------------|
-| danceability, track_album_name, tempo, loudness| weniger als 0.01| -0,214282700637873| -0,2142479455475|
-| danceability, track_album_name, tempo, mode| weniger als 0.03|-0,214282700637873|-0,214716215132004|-0,217908397257487|
-| danceability, track_album_name, loudness, mode| weniger als 0.04|-0,214282700637873|-0,217908397257487|
-| danceability, tempo, loudness, mode| weniger als 0.05|-0,214282700637873| -0,215031645754395|
-| track_album_name, tempo, loudness, mode| weniger als 0.05|-0,214282700637873|-0,225688084349699|
+### Feature Importance
+Alle Feature Kombinationen wurden auf einem Decision Tree mit den beiden Evaluationsmetriken und 5-facher Kreuzvalidierung evaluiert.
+Die angebenen Metriken sind  dabei der Durschnitt über die 5 Folds.
+
+| Feature Kombination |RMSE| MEA| relativer Unterschied zu einem DT mit allen Features|
+|---------------------| ---|-----|--------------------------------------------|
+| danceability,track_album_name,tempo, loudness |-0,2142 | -0,1757 | < 0.01|
+|track_album_name,tempo,loudness,mode           |-0,2257 |-0,1873  | < 0.05|
+| danceability,track_album_name,tempo           |-0,2146 | -0,1762 | 
+| danceability,tempo,mode                       |-0,2157 | -0,1771 |
+| track_album_name,loudness,mode	            |-0,2306 | -0,1933 |
 
 
-Alle Feature Kombinationen wurden auf einem Decision Tree
-mit den beiden Evaluationsmetriken und 5-facher Kreuzvalidierung evaluiert.
-Der angebene RMSE ist dabei der Durschnitt über die 5 Folds.
 
-### Feature Importance: 
+In der Tabelle sind jeweils die Kombination von 3 bzw. 4 verschiedenen Features mit den besten bzw. schlechtechsten RMSE bzw. MEA aufgeführt jeweils gerundet auf 4 Nachkommastellen. Die anderen Werte können in den Dateien im Ordner `evaluation_results` nachgelesen werden.
+
+#### von sklearn berechnete Feauture Importance: 
 | Feature | gerundete feature importance|
 |---------|-----------------------------|
 danceability |0.1092|
@@ -92,7 +94,7 @@ mode| 0.0092|
 Die 10 wichtigsten Wörter für die Spalte track_album_name
 | Wort | gerundeter TF-IDF Wert|
 |------|-------------|
-|the|0.0.0184|
+|the|0.0184|
 |of|0.0079|
 |deluxe|0.0061|
 |feat|0.0060|
@@ -102,6 +104,11 @@ Die 10 wichtigsten Wörter für die Spalte track_album_name
 |edition| 0.0047|
 |remastered| 0.0037|
 |me|0.0036|
+
+Wie erwartet ist es nicht verwunderlich, dass zwei Funktionswörter zu den 10 wichtigsten Wörtern zählen, da sie erstens allgemein sehr oft auftreten 
+und deswegen auch entsprechend oft in Album Titeln vorkommt. 
+Dies könnte vermieden werden, in dem man eine Liste an Stopwörtern benutzt.
+
 
 
 ### Optimierung der Hyperparameter für den Decision Tree: 
