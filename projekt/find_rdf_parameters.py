@@ -4,8 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
-from preprocessing import create_dataset,split_data
-
+from preprocessing import create_dataset,split_data,build_model
 
 MAX_DEPTH_UPPER = 20
 evaluation_parameter = {
@@ -15,13 +14,10 @@ evaluation_parameter = {
 }
 
 def find_rdf_parameters():
-    default_tree = RandomForestRegressor(random_state=0)
+    default_rdf = RandomForestRegressor(random_state=0)
     spotify_songs = create_dataset()
     X_train,_,y_train,_ = split_data(spotify_songs)
-    vectorizer = ColumnTransformer(
-                [("TF-IDF",TfidfVectorizer(),"track_album_name")],remainder="passthrough")
-    piped_model= Pipeline([("tf-idf",vectorizer),("model",default_tree)])
-   
+    piped_model= build_model(default_rdf)
     scores = evaluation_parameter["evaluation_metrics"]
     param_to_test = evaluation_parameter["param_to_test"]
     cv_search = GridSearchCV(piped_model,param_to_test,n_jobs=-1,scoring=scores,

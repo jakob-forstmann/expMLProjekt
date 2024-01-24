@@ -64,9 +64,9 @@ Die Majority Baseline hat am schlechsten abgeschnitten denn nur der häufigst We
 Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt vorkommen ist dies eine weiterer Grund für das schlechtere Abschneiden der Majority Baseline.
 
 
-# verschiedene Feature Kombinationen 
+## Experimente  
 
-## Kombinationen von 4 Features 
+### Kombinationen von 4 Features 
 | Feature Kombination | relativer Unterschied zu einem DT mit allen Features | RMSE bei allen Features mit max_depth=7 |RMSE bei der Feature Kombination mit max_depth=7|
 |---------------------| ------------------------------------------------------|-------------------------------|-----------------------------------|
 | danceability, track_album_name, tempo, loudness| weniger als 0.01| -0,214282700637873| -0,2142479455475|
@@ -79,3 +79,35 @@ Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Inter
 Alle Feature Kombinationen wurden auf einem Decision Tree
 mit den beiden Evaluationsmetriken und 5-facher Kreuzvalidierung evaluiert.
 Der angebene RMSE ist dabei der Durschnitt über die 5 Folds.
+
+### Feature Importance: 
+| Feature | gerundete feature importance|
+|---------|-----------------------------|
+danceability |0.1092|
+tempo|0.1596|
+loudness|0.1168|
+mode| 0.0092|
+
+
+Die 10 wichtigsten Wörter für die Spalte track_album_name
+| Wort | gerundeter TF-IDF Wert|
+|------|-------------|
+|the|0.0.0184|
+|of|0.0079|
+|deluxe|0.0061|
+|feat|0.0060|
+|hits| 0.0054|
+|remix| 0.005|
+|you| 0.005|
+|edition| 0.0047|
+|remastered| 0.0037|
+|me|0.0036|
+
+
+### Optimierung der Hyperparameter für den Decision Tree: 
+Der Paramter mean_samples_split hat keinen wesentlichen Einfluss auf die beiden Evalautionsmetriken:
+| Metrik| gerundeter Durschnitt über 5 Folds | gerundete Standardabweichung bei 5 folds|
+|-------|------------|--------------------|
+| RMSE |-0.2142 | 0.0001; genauer Wert: 5.1346e-05|
+| MEA | -0.1758 | 0.0001; genauer Wert: 5.1346e-05|
+

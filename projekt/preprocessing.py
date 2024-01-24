@@ -1,8 +1,10 @@
-from functools import cache
 import pandas as pd 
+import numpy as np 
+from functools import cache
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np 
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 
 def read_entire_dataset(file_name:str)-> pd.DataFrame:
     # the columns accoustiness,liveness and valence contain european 
@@ -36,6 +38,11 @@ def rescale_data_range(songs:pd.DataFrame,columns_to_scale:[np.array]):
     songs = remove_strings_from_numeric_columns(songs)
     songs.where(songs[columns_to_scale]<1,songs[columns_to_scale]/1000,inplace=True)
     return songs
+
+def build_model(model):
+    vectorizer = ColumnTransformer(
+                [("TF-IDF",TfidfVectorizer(),"track_album_name")],remainder="passthrough")
+    return Pipeline([("tf-idf",vectorizer),("model",model)])
 
 @cache
 def create_dataset():
