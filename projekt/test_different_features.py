@@ -2,35 +2,36 @@ from itertools import combinations
 import pandas as pd 
 from sklearn.pipeline import Pipeline
 from preprocessing import create_dataset,get_column_names,split_data,build_model
-from find_DT_parameters import get_dt_for_experiments,evaluate_experiments
+from find_DT_parameters import get_dt_for_experiments
+from evaluation import evaluate_experiments
 
 
 def train_with_different_feature_combinations(model,select_columns):
     spotify_songs = create_dataset()
+    X_train,_,y_train,_ = split_data(spotify_songs)
     columns_to_test = select_columns()
     RMSE = []
     MEA  = []
     combinations_results = pd.DataFrame({"columns":columns_to_test})
-    for col_idx,columns_to_use in enumerate(columns_to_test):
+    for columns_to_use in columns_to_test:
         columns_to_use = list(columns_to_use)
         columns_to_use.append("valence")
-        reduced_songs = spotify_songs[columns_to_use]
-        if "track_album_name" in reduced_songs:
+        #reduced_songs = spotify_songs[columns_to_use]
+        if "track_album_name" in columns_to_use:
            piped_model = build_model(model)
         else:
             piped_model = Pipeline([("model",model)])
-        piped_model.set_params(model__max_depth=7)
-        x_train,_,y_train,_ = split_data(reduced_songs)
-        cv_results = evaluate_experiments(piped_model,x_train,y_train)    
-        RMSE_across_5_folds = round(cv_results["test_neg_root_mean_squared_error"].mean(),4)
-        MEA_across_5_folds = round(cv_results["test_neg_mean_absolute_error"].mean(),4)
-        RMSE.append(RMSE_across_5_folds)
-        MEA.append(MEA_across_5_folds)
+        piped_model.set_params(model__max_depth=7)       
+        _,test_RMSE,_,test_MEA = evaluate_experiments(piped_model,columns_to_use)
+        RMSE.append(round(test_RMSE,4))
+        MEA.append(round(test_MEA,4))
     combinations_results["RMSE across 5 folds"] = RMSE
     combinations_results["MEA across 5 folds"]  = MEA 
     combinations_results.to_csv(f"evaluation_results/feature_combinations_{len(columns_to_test)}")
 
 def test_combinations_of_four_columns():
+    """ returns all combinations of four columns from
+    the five used columns"""
     columns = get_column_names()
     return list(combinations(columns[:-1],len(columns)-2))
    
