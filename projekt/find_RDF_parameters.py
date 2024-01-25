@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestRegressor
 from preprocessing import build_model
 from evaluation import perform_grid_search_cv
 
-MAX_DEPTH_UPPER = 2
+MAX_DEPTH_UPPER = 30
 evaluation_parameter = {
                 "evaluation_metrics": ["neg_root_mean_squared_error","neg_mean_absolute_error"],
                 "param_to_test":[{"model__max_depth":list(range(1,MAX_DEPTH_UPPER)),
