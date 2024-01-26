@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.tree import DecisionTreeRegressor
 from preprocessing import build_model
 from evaluation import evaluate_experiments,perform_grid_search_cv
+from dataset_statistics import plot_error_scores
 
 MAX_DEPTH_UPPER = 20
 # criterion absolute error is deliberately left out 
@@ -50,6 +51,28 @@ def get_dt_for_experiments():
     """ always return the same decision tree that 
     can be used for testing some hyperparemeters"""
     return  DecisionTreeRegressor(random_state=0)
+
+def plot_results_dt():
+    cv_results = pd.read_csv("evaluation_results/dt_parameter.csv")
+    scores = evaluation_parameter["evaluation_metrics"]
+    columns_to_use = [dataset+"_"+metric for dataset in ["mean_train","mean_test"] for metric in scores]
+    print(columns_to_use)
+    columns_to_use.append("param_model__max_depth")
+    cv_results = cv_results[columns_to_use]
+    MSE_results = cv_results[0:MAX_DEPTH_UPPER-1]
+    FMSE_results = cv_results[MAX_DEPTH_UPPER-1:]
+    print(MSE_results)
+    print("="*42)
+    print(FMSE_results)
+    MSE_train_results = MSE_results[columns_to_use[0:2]]
+    MSE_test_results  = MSE_results[columns_to_use[2:4]]
+    FMSE_train_results = FMSE_results[columns_to_use[0:2]]
+    FMSE_test_results  = FMSE_results[columns_to_use[2:4]]
+    plot_error_scores(MSE_train_results,MSE_results["param_model__max_depth"],"Max_depth on the training dataset ","max_depth","mean across 5 folds")
+    plot_error_scores(MSE_test_results,MSE_results["param_model__max_depth"],"Max_depth on the evaluation dataset ","max_depth","mean across 5 folds")
+    plot_error_scores(FMSE_train_results,MSE_results["param_model__max_depth"],"Max_depth on the training dataset ","max_depth","Mean  across 5 Folds")
+    plot_error_scores(FMSE_test_results,MSE_results["param_model__max_depth"],"Max_depth on the evaluation dataset ","max_depth","Mean  across 5 Folds")
+
 
 if __name__ =="__main__":
    optimize_min_split_samples()
