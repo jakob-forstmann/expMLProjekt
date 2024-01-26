@@ -12,9 +12,10 @@ evaluation_parameter = {
                 "param_to_test":[{"model__max_depth":list(range(1,MAX_DEPTH_UPPER)),
                 "model__criterion":["squared_error","friedman_mse"]}]
 }
-def optimize_parameter(result_file_name:str):
+def optimize_parameter():
     """optimze a decision tree with the parameters 
     stored in evaluation_parameter using GridSearchCV"""
+    result_file_name = "evaluation_results/dt_evaluation2.csv"
     default_dt = build_model(get_dt_for_experiments())
     perform_grid_search_cv(evaluation_parameter,default_dt,result_file_name)
 
@@ -75,4 +76,6 @@ def plot_results_dt():
 
 
 if __name__ =="__main__":
-   optimize_min_split_samples()
+    optimize_parameter()
+    optimze_splitter()
+    optimize_min_split_samples()
