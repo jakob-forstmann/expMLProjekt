@@ -2,13 +2,14 @@ from itertools import combinations
 import pandas as pd 
 from sklearn.pipeline import Pipeline
 from preprocessing import create_dataset,get_column_names,split_data,build_model
-from find_DT_parameters import get_dt_for_experiments
+from find_DT_parameters import get_optimized_dt
+from find_lasso_parameters import get_optimized_linear_model
+from find_RDF_parameters import get_optimized_rdf
 from evaluation import evaluate_experiments
 
 
 def train_with_different_feature_combinations(model,select_columns):
-    spotify_songs = create_dataset()
-    X_train,_,y_train,_ = split_data(spotify_songs)
+    """ reports the RMSE and the MEA for different feature combinations"""
     columns_to_test = select_columns()
     RMSE = []
     MEA  = []
@@ -16,18 +17,16 @@ def train_with_different_feature_combinations(model,select_columns):
     for columns_to_use in columns_to_test:
         columns_to_use = list(columns_to_use)
         columns_to_use.append("valence")
-        #reduced_songs = spotify_songs[columns_to_use]
-        if "track_album_name" in columns_to_use:
+        if "track_name" in columns_to_use:
            piped_model = build_model(model)
         else:
             piped_model = Pipeline([("model",model)])
-        piped_model.set_params(model__max_depth=7)       
         _,test_RMSE,_,test_MEA = evaluate_experiments(piped_model,columns_to_use)
         RMSE.append(round(test_RMSE,4))
         MEA.append(round(test_MEA,4))
     combinations_results["RMSE across 5 folds"] = RMSE
-    combinations_results["MEA across 5 folds"]  = MEA 
-    combinations_results.to_csv(f"evaluation_results/feature_combinations_{len(columns_to_test)}")
+    combinations_results["MAE across 5 folds"]  = MEA 
+    combinations_results.to_csv(f"evaluation_results/feature_combinations_{len(columns_to_test)}_dt2")
 
 def test_combinations_of_four_columns():
     """ returns all combinations of four columns from
@@ -51,7 +50,7 @@ def calculate_feature_importance(model):
     feat_importance= fitted_model.feature_importances_
     columns_importance = feat_importance[-4:]
     for col_idx,column_name in enumerate(column_names):
-        print(f"column names:{column_name} feature importance: {columns_importance[col_idx]}") 
+        print(f"column names:{column_name} feature importance: {round(columns_importance[col_idx],4)}") 
     tf_idf_values = pd.Series(feat_importance[0:len(feat_importance)-4]).sort_values(ascending=False)[0:10]
     top_words_tf_idf = [feature_names[idx] for idx in tf_idf_values.index]
     tf_idf_data = {"word":top_words_tf_idf,"TF-IDF":tf_idf_values}
@@ -60,6 +59,13 @@ def calculate_feature_importance(model):
    
 
 if __name__=="__main__":
-    default_dt = get_dt_for_experiments()
-    #calculate_feature_importance(default_dt)
-    train_with_different_feature_combinations(default_dt,test_combinations_of_four_columns)
+    opt_dt = get_optimized_dt()
+    opt_linear_model = get_optimized_linear_model()
+    opt_rdf = get_optimized_rdf()
+    calculate_feature_importance(opt_dt)
+    print(opt_rdf)
+    print("RDF Feature Importance")
+    #calculate_feature_importance(opt_rdf)
+    #train_with_different_feature_combinations(opt_dt,test_combinations_of_three_columns)
+    #train_with_different_feature_combinations(opt_dt,test_combinations_of_four_columns)
+

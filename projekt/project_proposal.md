@@ -12,7 +12,7 @@ Das Datenset ist verfügbar unter https://www.kaggle.com/datasets/joebeachcapita
 
 ### Anzahl der Datenpunkte:
 Das Datenset hat 23 verschiedene Attribute  mit insgesamt 32.833 verschiedene Songs. 
-Leider enthalten einige Songs für die valence Strings als Werte, sodass nach dem Aussortieren noch 32814 Songs übrig bleiben.
+Leider enthalten einige Songs für die valence Strings als Werte, sodass nach dem Aussortieren noch 32714 Songs übrig bleiben.
 Von den 23 Attributen werden 5 für die Vorhersage genutzt werden.
 
 ### Attribute 
@@ -28,7 +28,7 @@ Von den 23 Attributen werden 5 für die Vorhersage genutzt werden.
 
 Bei den Beispieldaten fällt auf,dass die Attribute Tanzbarkeit und Stimmung laut README doubles zwischen 0 und 1 sein sollen tatsächlich aber vor allem  Werte zwischen 0 und 1000 auftauchen. Mein bisheriger Plan ist es, diese Werte in doubles zu verwandeln durch Division durch 1000. 
 
-Von den 23 möglichen Attributen plane ich die die 5 Attribute :Geschwindigkeit in bpm,Lautstärke,Tanzbarkeit,mode(Dur oder Moll),Songname für die Vorhesage zu nuten.
+Von den 23 möglichen Attributen plane ich die die 5 Attribute :Geschwindigkeit in bpm,Tonart,Tanzbarkeit,mode(Dur oder Moll),Songname für die Vorhesage zu nuten.
 
 ## mögliche Algorithmen:
 Da die Spalte "valence" jeden Wert zwischen 0 und 1 annehmen kann wie in dem Datenset sichtbar wurde, gibt es keine festen Klassen.
@@ -45,6 +45,7 @@ Da es sich um ein Regression Problem  handelt sind Metriken wie accuarcy sind le
 - R2 Score 
 
 ## erwartete Performanz:
-Vermutlich lässt sich keine hohe Performanz erzielen, vielleicht 60-65%.
-Es könnte aber auch passieren, dass die Performanz nur 50% erreicht, das Modell würde dannn die richtige Klasse raten und wäre nicht besser als ein Random Classifier. 
-
+Vermutlich lässt sich keine hohe Performanz erzielen, jedoch ist meine 
+Hoffnung einen höheren Score als 0.5 zu erreichen. 
+Denn ansonsten würden die  Vorhesagen 50 % von den tatsächlichen Werten 
+abweichen. Dies entspricht dem Erwartungswert der Gleichverteilung zwischen 0 und 1,was bedeutet dass das Modell alle Werte als gleich wahrscheinlich betrachtet unabhängig von der Eingabe.

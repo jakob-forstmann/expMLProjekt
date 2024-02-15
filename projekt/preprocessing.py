@@ -31,9 +31,9 @@ def save_splitted_data(splitted_datasets:[np.array],file_names:[str]):
 
 def remove_strings_from_numeric_columns(songs:pd.DataFrame):
     """remove non numeric values from the numeric columns"""
-    columns_to_clean = songs.loc[:,songs.columns!="track_album_name"]
+    columns_to_clean = songs.loc[:,songs.columns!="track_name"]
     cleaned = columns_to_clean.apply(lambda val:pd.to_numeric(val,errors="coerce")).dropna()
-    cleaned.insert(0,"track_album_name",songs["track_album_name"])
+    cleaned.insert(0,"track_name",songs["track_name"])
     return cleaned
 
 def rescale_data_range(songs:pd.DataFrame,columns_to_scale:[np.array],threshold=1,scal_factor=1000):
@@ -46,14 +46,14 @@ def rescale_data_range(songs:pd.DataFrame,columns_to_scale:[np.array],threshold=
 
 def build_model(model):
     """build a model Pipeline with a TF-IDF Vectorizer for the 
-    track_album names and the passed model as the second step"""
+    track names and the passed model as the second step"""
     vectorizer = ColumnTransformer(
-                [("TF-IDF",TfidfVectorizer(),"track_album_name")],remainder="passthrough")
+                [("TF-IDF",TfidfVectorizer(),"track_name")],remainder="passthrough")
     return Pipeline([("tf-idf",vectorizer),("model",model)])
 
 @cache
 def create_dataset():
-    """ builds the cleaned dataset.removes unnecesary columns and 
+    """ builds the cleaned dataset.Removes unnecesary columns and 
     junk data from the columns"""
     columns_to_use = get_column_names()
     spotify_songs_complete  = read_entire_dataset("data/spotify_songs.csv")
@@ -64,7 +64,7 @@ def create_dataset():
 
 def get_column_names():
     """a helper function to get all used columns from the spotify dataset"""
-    return ["danceability","track_album_name","tempo","key","mode","valence"]
+    return ["danceability","track_name","tempo","key","mode","valence"]
 
 def save_cleaned_dataset():
     spotify_songs = create_dataset()

@@ -4,7 +4,7 @@ from preprocessing import create_dataset,split_data
 
 evaluation_metrics = ["neg_root_mean_squared_error","neg_mean_absolute_error"]
 
-def evaluate_experiments(piped_model,custom_columns=None):
+def evaluate_experiments(piped_model,custom_columns=None,dataset_loader=create_dataset):
     """evaluate the RMSE and MEA on the evaluation dataset using 5-cross validation
     returns the mean RMSE and MEA across 5 folds
 
@@ -12,7 +12,7 @@ def evaluate_experiments(piped_model,custom_columns=None):
     using the build_model function
     custom_columns: a list of columns to use,useful for testing different
     feature combinations"""
-    spotify_songs = create_dataset()
+    spotify_songs = dataset_loader()
     if custom_columns is not None:
         spotify_songs = spotify_songs[custom_columns]
     X_train,_,y_train,_ = split_data(spotify_songs)
@@ -44,5 +44,7 @@ def extract_RMSE_MEA_scores(full_cross_val_result):
     train_RMSE_across_5_folds =  cross_val_result["train_neg_root_mean_squared_error"].mean()
     test_MEA_across_5_folds  = cross_val_result["test_neg_mean_absolute_error"].mean()
     test_RMSE_across_5_folds =  cross_val_result["test_neg_root_mean_squared_error"].mean()
+    print("test MEA std",cross_val_result["test_neg_mean_absolute_error"].std())
+    print("test RMSE std",cross_val_result["test_neg_root_mean_squared_error"].std())
     return  train_RMSE_across_5_folds,test_RMSE_across_5_folds,train_MEA_across_5_folds,test_MEA_across_5_folds
 
