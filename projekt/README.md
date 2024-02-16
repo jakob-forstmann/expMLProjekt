@@ -32,24 +32,21 @@ Es gibt insgesamt 1362 verschiedene Werte für die Valence, davon aber nur 68 ve
 112 Werte nur 2x mal und 71 Werte nur 3x mal auf. 
 
 Anzahl Datenpunkte pro Häufigkeit:
-![Werteverteilung](plots/datapoints_per_frequency.png)
-
-Die 20 häufigsten Werte für die Valence:
-![Werteverteilung](plots/20_most_frequent_values.png)
+![Werteverteilung](plots/valence_distribution.png)
 
 ## Evaluierung der Baselines:
 Alle Metriken wurden mit 5 facher Kreuzvalidierung durchgeführt
 Dabei benutzt sklearn für die Kreuzvalidierung den negatierten Fehler
 für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
 
-(negativer) root Mean squared error:
+root Mean squared error(RMSE):
 | Baseline |Durschnitt über 5 Folds| Score auf dem Testdatenset
 |----------|:--------------|----|
 | Mean Baseline| -0.2325| 0.2348|
 | Majority Baseline|-0.5078|0.5056
 | Random Baseline mit zufälliger valence 0.402| -0.2550 | 0.2598
 
-(negativer) absolute error: 
+absolute error(MAE)
 
 | Baseline |Durschnitt über 5 Folds|Score auf dem Testdatenset
 |----------|:--------------|----|
@@ -64,57 +61,154 @@ Die Majority Baseline hat am schlechsten abgeschnitten denn nur der häufigst We
 Da außerdem 5 Werte die 68x mal vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt vorkommen ist dies eine weiterer Grund für das schlechtere Abschneiden der Majority Baseline.
 
 
-## Experimente  
+## Experimente Resultate
 
-### Feature Importance
-Alle Feature Kombinationen wurden auf einem Decision Tree mit den beiden Evaluationsmetriken und 5-facher Kreuzvalidierung evaluiert.
+### Optimierung der Hyperparameter für den Decision Tree: 
+
+#### Einfluss der Max Depth: 
+
+![max_depth_evaluation_30_estimators](plots/max_depth_dt_evaluation.png)
+
+
+|Hyperparameter |  bester RMSE gerundeter Durschnitt über 5 Folds |bester MAE gerundeter Durschnitt über 5 Folds|
+|---------------|------------------------------------------------|--------------------|
+| Default Decision mit | -0.2139 | -0.1754 |
+|min split samples 2-100 | -0.2139 |-0.1754|  2.8592657193308884e-05|
+| Friedman Mean Squared Error Splitting Kriterium | -0.2139 | -0.1754 |
+
+
+
+### Hyperparameter für den Random Forest:
+
+| Anzahl DT | max_depth | gerundeter höchster RMSE über 5 Folds | dazugehöriger MAE über 5 folds
+|-----------|-------------|---------------------------------------|------------------------------|
+| 10 | 17 |  -0.1982 | -0.1607 |
+| 20 | 23 | -0.1957   |-0.181 |
+| 30 | 27 | -0.1948| -0.1571| 
+
+
+| Anzahl DT | max_depth| gerundeter höchster MEA über 5 Folds | dazugehöriger RMSE über 5 folds
+|-----------|-------------|--------------------------------------|----------------------------|
+| 10 | 27 |  -0.1601| -0.1991 |
+| 20 | 27 | -0.1577   |-0.1958 |
+| 30 | 27 | -0.1571| -0.1950| 
+
+
+### Einfluss der maximalen Tiefe auf den RMSE bzw. MEA:
+
+![max_depth_30_estimators_evaluation](plots/max_depth_30_estimators_evaluation.png)
+
+Der Einfluss des max_depth Parameter wurde jeweils mit 10,20 und 30 Estimators untersucht. 
+Die Plots dazu sind sich sehr ähnlich weswegen hier nur der Plot für 30 Estimators augefführt ist.
+Die Plots für 10 und 20 estimators kann man im Ordner `plots` nachschauen.
+
+
+## Hyperparameter der Linearen Regression:
+| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds | Unterschied |std über 5 Folds|
+|--------|-------------------------------------|--------------------------------------|------------|-----------------|
+| lineares modell mit Intercept | -0.2395 | -0.1808|<0.01| <0.01  |
+| lineares Modell ohne Intercept| -0.2345| -0.1785| < 0.01| < 0.01 |
+
+
+### Lineares Modell mit L2 Regularisierung:
+
+![max_depth_30_estimators_evaluation](plots/lasso_model_without_intercept.png)
+
+
+![max_depth_30_estimators_evaluation](plots/lasso_model_with_bias_evaluation.png)
+
+Der Parameter alpha kontrolliert wie stark der Regularisierungsterm 
+gewichtet wird. In den beiden Plots kann man erkennen,dass ein Modell
+ohne Regularisierung ein sogenannntes OLS am besten performt. 
+
+## Vergleich der Modelle:
+| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds |
+|-------|-----------------------|-------------------|
+| lineares modell mit Intercept |  -0.2395 | -0.1808|
+| lineares Modell ohne Intercept|-0.2345 | -0.1785|
+| Decision Tree mit default max_depth|-0.2467| -0.1744|
+| Decision Tree mit max_depth=7|-0.2139|-0.1731|
+| Default Random Forest mit 30 estimators| -0.1969 |-0.1511|
+| Default Random Forest mit 100 estimators| -0.1944 |-0.1478|
+| Random Forest mit 30 estimators und max_depth=27 | -0.1948| -0.1571| 
+
+
+Unterschied 100 Estimators und 30 Estimators <0.01. 
+
+test MEA std 0.0002598188683299422
+test RMSE std 0.0006071576937390772
+
+
+### Feature Importance der einzelnen Spalten
 Die angebenen Metriken sind  dabei der Durschnitt über die 5 Folds.
 
-| Feature Kombination |RMSE| MEA| relativer Unterschied zu einem DT mit allen Features|
-|---------------------| ---|-----|--------------------------------------------|
-| danceability,track_album_name,tempo, loudness |-0,2142 | -0,1757 | < 0.01|
-|track_album_name,tempo,loudness,mode           |-0,2257 |-0,1873  | < 0.05|
-| danceability,track_album_name,tempo           |-0,2146 | -0,1762 | 
-| danceability,tempo,mode                       |-0,2157 | -0,1771 |
-| track_album_name,loudness,mode	            |-0,2306 | -0,1933 |
-
+|modell| Feature Kombination | MEA über 5 Folds | RMSE| 
+|------|----------------------|---------------------------|-------------------|
+| lineares Modell|danceability,track_name,tempo,mode|-0.2144| -0.176
+| lineares Modell|track_name,tempo,key,mode|-0.2266| -0.1884|
+| Decision Tree| danceability,track_album_name,tempo,mode|-0.2139|-0.175|
+| Decision Tree| track_album_name,tempo,key,mode|-0.2268|-0.188|
+| Random Forest| | | |
 
 
 In der Tabelle sind jeweils die Kombination von 3 bzw. 4 verschiedenen Features mit den besten bzw. schlechtechsten RMSE bzw. MEA aufgeführt jeweils gerundet auf 4 Nachkommastellen. Die anderen Werte können in den Dateien im Ordner `evaluation_results` nachgelesen werden.
 
-#### von sklearn berechnete Feauture Importance: 
-| Feature | gerundete feature importance|
-|---------|-----------------------------|
-danceability |0.1092|
-tempo|0.1596|
-loudness|0.1168|
-mode| 0.0092|
+### von sklearn berechnete Feature Importance: 
+
+![max_depth_30_estimators_evaluation](plots/feature_importance.png)
 
 
-Die 10 wichtigsten Wörter für die Spalte track_album_name
-| Wort | gerundeter TF-IDF Wert|
-|------|-------------|
-|the|0.0184|
-|of|0.0079|
-|deluxe|0.0061|
-|feat|0.0060|
-|hits| 0.0054|
-|remix| 0.005|
-|you| 0.005|
-|edition| 0.0047|
-|remastered| 0.0037|
-|me|0.0036|
+|Modell | danceability| tempo|key| mode|
+|---------------|-------------|------|---|----|
+| Decision Tree | 0.5212      |0.2331|0.0055|0.0015| 
+| Random Forest | 0.1887      |0.1507|0.0393|0.0091| 
 
-Wie erwartet ist es nicht verwunderlich, dass zwei Funktionswörter zu den 10 wichtigsten Wörtern zählen, da sie erstens allgemein sehr oft auftreten 
+
+
+#### Die 10 wichtigsten Wörter für die Spalte track_name
+
+gemeinsame Wörter: 
+| Wort | TF-IDF Wert DT | TF-IDF Wert RDF | Rang DT|Rang RDF|
+|------|----------------|---------------------------|--------|------------------|
+| feat | 0.013377 | 0.012639 |2|2|
+| remix | 0.007273 |  0.0.009445| 6 | 3|
+| remastered|0.008607|0.004918| 5 |8|
+|version| 0.009785|0.005344|3|7|
+
+Wörter mit höchstem TF-IDF score für den DT: 
+| Wort | TF-IDF Wert| 
+|------|------------|
+| original | 0.017417 | 
+| feat | 0.013377|
+| version | 0.009785 |
+| rock | 0.009003 |
+| remastered| 0.008607 |
+| remix | 0.007273 | 
+| highest | 0.006462 |
+| alabama | 0.006200 |
+| bad | 0.006026 |
+| de | 0.005736 |
+
+
+|the|0.012662|
+|feat |0.010687
+|remix|0.009445|
+| you| 0.007324|
+| me   |0.006757|
+| love  |0.005611|
+| version |0.005344|
+| remastered |0.004918|
+| on | 0.004420|
+|of | 0.004278|
+
+Wie erwartet gehören zwei Funktionswörter zu den 10 wichtigsten Wörtern, da sie allgemein im Sprachgebrauch sehr oft auftreten 
 und deswegen auch entsprechend oft in Album Titeln vorkommt. 
-Dies könnte vermieden werden, in dem man eine Liste an Stopwörtern benutzt.
+Dies könnte vermieden werden, in dem man eine Liste an Stopwörtern benutzt. 
 
 
-
-### Optimierung der Hyperparameter für den Decision Tree: 
-Der Paramter mean_samples_split hat keinen wesentlichen Einfluss auf die beiden Evalautionsmetriken:
-| Metrik| gerundeter Durschnitt über 5 Folds | gerundete Standardabweichung bei 5 folds|
-|-------|------------|--------------------|
-| RMSE |-0.2142 | 0.0001; genauer Wert: 5.1346e-05|
-| MEA | -0.1758 | 0.0001; genauer Wert: 5.1346e-05|
-
+## Verschiedene Splits der Datensets und die jeweiligen Metriken: 
+DT_RMSE:[-0.239, -0.2262, -0.2241, -0.2196, -0.2171, -0.2172, -0.2165, -0.2149, -0.2147, -0.2139] 
+DT MEA:[-0.193, -0.1845, -0.1834, -0.1793, -0.1767, -0.1774, -0.1766, -0.1754, -0.1754, -0.175]
+RDF_RMSE:[-0.22, -0.2123, -0.2115, -0.2065, -0.2044, -0.2045, -0.2031, -0.2017, -0.201, -0.2002] 
+DT MEA:[-0.179, -0.1729, -0.1722, -0.1678, -0.1654, -0.1658, -0.1646, -0.1634, -0.1628, -0.1623]
+linear RMSE:[-0.3698, -0.2934, -0.2855, -0.2676, -0.2561, -0.2563, -0.2499, -0.2418, -0.2407, -0.2354] LINEAR MEA:[-0.2724, -0.2229, -0.2172, -0.2027, -0.1934, -0.1921, -0.1874, -0.1828, -0.1817, -0.1781]
