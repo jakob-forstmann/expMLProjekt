@@ -19,7 +19,7 @@ def get_lasso_model_for_experiments():
 
 
 def get_optimized_linear_model():
-    return LinearRegression()
+    return LinearRegression(fit_intercept=False)
 
 def find_lasso_parameters():
     """ evaluate a lasso model,e.g. a linear regression 
