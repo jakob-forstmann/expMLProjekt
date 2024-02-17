@@ -59,6 +59,24 @@ def plot_Dataset_3D(data,target):
     plt.show()
 
 
+def plot_predictions(model):
+    """ creates a scatter plot comparing the predicted 
+        valence values for the test Datenset with the true 
+        valence values. """
+    piped_model = build_model(model)
+    spotify_songs = create_dataset()
+    X_train,X_test,y_train,y_test = split_data(spotify_songs)
+    piped_model.fit(X_train,y_train)
+    pred = piped_model.predict(X_test)
+    plt.scatter(range(len(y_test)),y_test,label='true values', color='blue')
+    plt.scatter(range(len(y_test)),pred,label='predicted values', color='red')
+    plt.title('Comparison of true vs predicted Values')
+    plt.xlabel('Testing Datapoints')
+    plt.ylabel('valence ')
+    plt.legend()
+    plt.show()
+
+
 
 if __name__ =="__main__":
     opt_rdf = get_optimized_rdf()
@@ -66,4 +84,8 @@ if __name__ =="__main__":
     opt_linear_modell = get_optimized_linear_model()
     plot_decision_boundaries(opt_dt)
     plot_decision_boundaries(opt_rdf)
-   
+    plot_predictions(opt_linear_modell)
+    plot_predictions(opt_dt)
+    plot_predictions(opt_rdf)
+
+
