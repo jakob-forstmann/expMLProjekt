@@ -66,6 +66,13 @@ def get_column_names():
     """a helper function to get all used columns from the spotify dataset"""
     return ["danceability","track_name","tempo","key","mode","valence"]
 
+
+def sample_split_from_dataset(percentage=0.1):
+    """ sample the passed percentrage from the dataset.
+    Useful to test which percentage of the dataset is sufficient"""
+    spotify_songs = create_dataset()
+    return spotify_songs.sample(frac=percentage,random_state=0)
+
 def save_cleaned_dataset():
     spotify_songs = create_dataset()
     spotify_songs.to_csv("data/cleaned_data.csv")

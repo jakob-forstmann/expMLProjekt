@@ -31,7 +31,6 @@ def plot_results_rdf():
 def evaluate_default_rdf():
     default_rdf = get_rdf_for_experiments()
     default_rdf_30_estim = RandomForestRegressor(random_state=0)
-    piped_rdf = build_model(default_rdf)
     piped_rdf_30_estim= build_model(default_rdf_30_estim)
     RMSE_result_30_estim,MEA_result_30_estim = evaluate_experiments(piped_rdf_30_estim)
     return RMSE_result_30_estim,MEA_result_30_estim
