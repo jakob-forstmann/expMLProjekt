@@ -32,7 +32,8 @@ def perform_grid_search_cv(evaluation_parameter,piped_model,result_file_name:str
                                 refit=False)
     cv_search.fit(X_train,y_train)
     df = pd.DataFrame(cv_search.cv_results_)
-    columns_to_use = ["mean_test_neg_root_mean_squared_error","mean_test_neg_mean_absolute_error"] 
+    columns_to_use = [  "mean_test_neg_root_mean_squared_error","mean_test_neg_mean_absolute_error",
+                        "std_test_neg_root_mean_squared_error","std_test_neg_mean_absolute_error"] 
     model_parameters = ["param_"+val for val in evaluation_parameter["param_to_test"][0].keys()]
     columns_to_use.extend(model_parameters)
     reduced_df = df[columns_to_use]

@@ -82,9 +82,9 @@ def select_splitter_results(cv_results):
 
 if __name__ =="__main__":
     max_depth_range = list(range(1,MAX_DEPTH_UPPER))
-    plot_results("evaluation_results/dt_evaluation.csv",max_depth_range,select_criterion_results)
-    plot_results("evaluation_results/splitter_evaluation.csv",max_depth_range,select_splitter_results)
     #optimize_parameter()
     #optimze_splitter()
     #optimize_min_split_samples()
     #evaluate_default_decision_tree()
+    plot_results("evaluation_results/dt_evaluation.csv",max_depth_range,select_criterion_results)
+    plot_results("evaluation_results/splitter_evaluation.csv",max_depth_range,select_splitter_results)
