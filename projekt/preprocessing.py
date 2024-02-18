@@ -11,7 +11,7 @@ def read_entire_dataset(file_name:str)-> pd.DataFrame:
     # the columns accoustiness,liveness and valence contain european 
     # decimals(,) but only the column valence is revelant here
     converter = {"valence":lambda x:np.float64(x.replace(",","."))}
-    return pd.read_csv(file_name,converters=converter)
+    return pd.read_csv(file_name,converters=converter,low_memory=False)
 
 def keep_necessary_columns(songs:pd.DataFrame,columns_to_keep:[str]):
     """delete all columns from the songs parameters except 
