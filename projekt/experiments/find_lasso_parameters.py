@@ -1,13 +1,13 @@
 import pandas as pd 
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import LinearRegression
-from preprocessing import build_model
-from find_DT_parameters import evaluate_experiments,perform_grid_search_cv
+from models.preprocessing import build_model
+from models.evaluation import evaluate_experiments,perform_grid_search_cv
 from dataset_statistics import plot_results
 
 
 alpha_range = list(range(1,40,2))
-file_name = "evaluation_results/lasso_evaluation.csv"
+file_name = "../evaluation_results/lasso_evaluation.csv"
 
 evaluation_parameter = {
                 "evaluation_metrics": ["neg_root_mean_squared_error","neg_mean_absolute_error"],

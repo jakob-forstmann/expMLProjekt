@@ -1,7 +1,7 @@
 import pandas as pd 
 from sklearn.tree import DecisionTreeRegressor
-from preprocessing import build_model
-from evaluation import evaluate_experiments,perform_grid_search_cv
+from models.preprocessing import build_model
+from models.evaluation import evaluate_experiments,perform_grid_search_cv
 from dataset_statistics import plot_results
 
 
@@ -18,7 +18,7 @@ evaluation_parameter = {
 def optimize_parameter():
     """optimze a decision tree with the parameters 
     stored in evaluation_parameter using GridSearchCV"""
-    result_file_name = "evaluation_results/dt_evaluation.csv"
+    result_file_name = "../evaluation_results/dt_evaluation.csv"
     default_dt = build_model(get_dt_for_experiments())
     perform_grid_search_cv(evaluation_parameter,default_dt,result_file_name)
 
@@ -28,7 +28,7 @@ def optimze_splitter():
     piped_model = build_model(get_dt_for_experiments())
     evaluation_parameter["param_to_test"][0].pop("model__criterion")
     evaluation_parameter["param_to_test"][0]["model__splitter"] = ["random","best"]
-    file_name = "evaluation_results/splitter_evaluation.csv"
+    file_name = "../evaluation_results/splitter_evaluation.csv"
     perform_grid_search_cv(evaluation_parameter,piped_model,file_name)
 
 def optimize_min_split_samples():
@@ -85,6 +85,6 @@ if __name__ =="__main__":
     #optimize_parameter()
     #optimze_splitter()
     #optimize_min_split_samples()
-    #evaluate_default_decision_tree()
-    plot_results("evaluation_results/dt_evaluation.csv",max_depth_range,select_criterion_results)
-    plot_results("evaluation_results/splitter_evaluation.csv",max_depth_range,select_splitter_results)
+    evaluate_default_decision_tree()
+    plot_results("../evaluation_results/dt_evaluation.csv",max_depth_range,select_criterion_results)
+    plot_results("../evaluation_results/splitter_evaluation.csv",max_depth_range,select_splitter_results)

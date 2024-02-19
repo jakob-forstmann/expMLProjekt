@@ -1,8 +1,8 @@
 import pandas as pd 
-from preprocessing import create_dataset,split_data,build_model
-from find_DT_parameters import get_optimized_dt
-from find_lasso_parameters import get_optimized_linear_model
-from find_RDF_parameters import get_optimized_rdf
+from models.preprocessing import create_dataset,split_data,build_model
+from experiments.find_DT_parameters import get_optimized_dt
+from experiments.find_lasso_parameters import get_optimized_linear_model
+from experiments.find_RDF_parameters import get_optimized_rdf
 from dataset_statistics import create_bar_plot
 
 

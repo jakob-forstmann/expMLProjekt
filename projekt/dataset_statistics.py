@@ -16,7 +16,7 @@ def plot_valence_frequencies():
     create_bar_plot(grouped_frequencies,"number of occurence","frequency")
 
 
-def plot_error_scores(error_scores,parameter,stds,plot_title,x_label,baselines=None):
+def plot_error_scores(error_scores,parameter,plot_title,x_label,stds=None,baselines=None):
     plt.figure(figsize=(12, 6))
     if baselines is not None:
         for baseline_label,baseline in baselines.items():
@@ -25,9 +25,10 @@ def plot_error_scores(error_scores,parameter,stds,plot_title,x_label,baselines=N
     labels = error_scores.columns
     for column_idx in range(0,len(error_scores.columns)):
         plt.plot(parameter,error_scores.iloc[:,column_idx],marker='o', linestyle='-',linewidth=3,label=labels[column_idx])
-        std_bottom = error_scores.iloc[:,column_idx]-stds.iloc[:,column_idx]
-        std_upper  = error_scores.iloc[:,column_idx]+stds.iloc[:,column_idx]
-        plt.fill_between(parameter,std_bottom,std_upper,alpha=0.5)
+        if stds is not None:
+            std_bottom = error_scores.iloc[:,column_idx]-stds.iloc[:,column_idx]
+            std_upper  = error_scores.iloc[:,column_idx]+stds.iloc[:,column_idx]
+            plt.fill_between(parameter,std_bottom,std_upper,alpha=0.5)
     plt.xlabel(x_label)
     plt.ylabel("mean across 5 folds")
     plt.title(plot_title)
@@ -35,7 +36,6 @@ def plot_error_scores(error_scores,parameter,stds,plot_title,x_label,baselines=N
     plt.legend(loc="lower right")
     plt.grid(True)
     plt.show()
-
 
 def plot_results(file_name,parameter_range,select_results,baselines=[None,None]):
     cv_results = pd.read_csv(file_name)
@@ -47,8 +47,8 @@ def plot_results(file_name,parameter_range,select_results,baselines=[None,None])
         test_results = results[columns_to_use[0:2]]
         std =  results[columns_to_use[2:4]]
         test_results.columns = ["RMSE","MAE"]
-        plot_error_scores(  test_results,parameter_range,std,
-                            f"{criterion} on the evaluation dataset",parameter_description,baseline)
+        plot_error_scores(test_results,parameter_range,f"{criterion} on the evaluation dataset",
+                          parameter_description,stds = std,baselines=baseline)
 
 
 def create_bar_plot(data,x_label,y_label):

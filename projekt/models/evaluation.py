@@ -1,6 +1,6 @@
 import pandas as pd 
 from sklearn.model_selection import GridSearchCV,cross_validate
-from preprocessing import create_dataset,split_data
+from models.preprocessing import create_dataset,split_data
 
 evaluation_metrics = ["neg_root_mean_squared_error","neg_mean_absolute_error"]
 

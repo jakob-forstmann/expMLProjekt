@@ -1,7 +1,7 @@
 import pandas as pd 
 from sklearn.ensemble import RandomForestRegressor
-from preprocessing import build_model
-from evaluation import perform_grid_search_cv,evaluate_experiments
+from models.preprocessing import build_model
+from models.evaluation import perform_grid_search_cv,evaluate_experiments
 from dataset_statistics import plot_results
 
 
@@ -15,7 +15,7 @@ evaluation_parameter = {
 def find_rdf_parameters():
     default_rdf =get_rdf_for_experiments()
     piped_model= build_model(default_rdf)
-    file_name = "evaluation_results/rdf_parameter"
+    file_name = "../evaluation_results/rdf_parameter"
     perform_grid_search_cv(evaluation_parameter,piped_model,file_name)
 
 def get_rdf_for_experiments():
@@ -50,4 +50,4 @@ if __name__ =="__main__":
     RMSE_results_default,MEA_results_default = evaluate_default_rdf()
     baseline = {"default RDF RMSE":RMSE_results_default,"default RDF MEA":MEA_results_default}
     max_depth_range = list(range(1,MAX_DEPTH_UPPER))
-    plot_results("evaluation_results/rdf_parameter.csv",max_depth_range,select_results,baseline)
+    plot_results("../evaluation_results/rdf_parameter.csv",max_depth_range,select_results,baseline)

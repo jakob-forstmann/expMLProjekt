@@ -1,6 +1,6 @@
 from sklearn.neural_network import MLPRegressor
-from preprocessing import build_model
-from evaluation import perform_grid_search_cv,evaluate_experiments
+from models.preprocessing import build_model
+from models.evaluation import perform_grid_search_cv,evaluate_experiments
 
 
 MAX_DEPTH_UPPER = 30
@@ -19,7 +19,7 @@ def get_mlp_for_experiments():
 def find_mlp_parameters():
     default_mlp =get_mlp_for_experiments()
     piped_model= build_model(default_mlp)
-    file_name = "evaluation_results/mlp_parameter"
+    file_name = "../evaluation_results/mlp_parameter"
     perform_grid_search_cv(evaluation_parameter,piped_model,file_name)
 
 

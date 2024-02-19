@@ -1,10 +1,10 @@
 import numpy as np 
 import pandas as pd
-from preprocessing import sample_split_from_dataset,build_model
-from find_DT_parameters import get_optimized_dt
-from find_RDF_parameters import get_optimized_rdf
-from find_lasso_parameters import get_optimized_linear_model
-from evaluation import evaluate_experiments
+from models.preprocessing import sample_split_from_dataset,build_model
+from models.evaluation import evaluate_experiments
+from experiments.find_DT_parameters import get_optimized_dt
+from experiments.find_RDF_parameters import get_optimized_rdf
+from experiments.find_lasso_parameters import get_optimized_linear_model
 from dataset_statistics import plot_error_scores
 
 
@@ -26,8 +26,9 @@ if __name__ =="__main__":
     dt_RMSE,dt_MAE = test_different_dataset_sizes(opt_dt)
     rdf_RMSE,rdf_MAE = test_different_dataset_sizes(opt_rdf)
     linear_RMSE,linear_MAE = test_different_dataset_sizes(opt_linear)
-    scores = pd.DataFrame({ "DT RMSE":dt_RMSE,"DT MAE":dt_MAE,
-                            "RDF RMSE":dt_RMSE,"RDF MAE":rdf_MAE,
+    scores = pd.DataFrame({ #"DT RMSE":dt_RMSE,"DT MAE":dt_MAE,
+                            #"RDF RMSE":dt_RMSE,"RDF MAE":rdf_MAE,
                             "linear RMSE":linear_RMSE,"linear MAE":linear_MAE})
-    plot_error_scores(scores,list(range(10,110,10)),"Dataset size percentage","percentage of the dataset")
+    plot_error_scores(scores,list(range(10,110,10)),x_label="Dataset size percentage",
+                            plot_title="percentage of the dataset")
     
