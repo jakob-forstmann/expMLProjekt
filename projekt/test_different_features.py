@@ -1,14 +1,14 @@
 from itertools import combinations
 import pandas as pd 
 from sklearn.pipeline import Pipeline
+from preprocessing import build_model,get_column_names
 from find_DT_parameters import get_optimized_dt
 from find_lasso_parameters import get_optimized_linear_model
 from find_RDF_parameters import get_optimized_rdf
 from evaluation import evaluate_experiments
-from dataset_statistics import create_bar_plot
 
 
-def train_with_different_feature_combinations(model,select_columns):
+def train_with_different_feature_combinations(model,select_columns,model_name):
     """ reports the RMSE and the MEA for different feature combinations"""
     columns_to_test = select_columns()
     RMSE = []
@@ -26,7 +26,7 @@ def train_with_different_feature_combinations(model,select_columns):
         MEA.append(round(test_MEA,4))
     combinations_results["RMSE across 5 folds"] = RMSE
     combinations_results["MAE across 5 folds"]  = MEA 
-    combinations_results.to_csv(f"evaluation_results/feature_combinations_{len(columns_to_test)}_dt")
+    combinations_results.to_csv(f"evaluation_results/feature_combinations_{len(columns_to_test)}_{model_name}.csv")
 
 def test_combinations_of_four_columns():
     """ returns all combinations of four columns from
@@ -42,6 +42,10 @@ if __name__=="__main__":
     opt_dt = get_optimized_dt()
     opt_linear_model = get_optimized_linear_model()
     opt_rdf = get_optimized_rdf()
-    train_with_different_feature_combinations(opt_dt,test_combinations_of_three_columns)
-    train_with_different_feature_combinations(opt_dt,test_combinations_of_four_columns)
+    train_with_different_feature_combinations(opt_linear_model,test_combinations_of_three_columns,"linear")
+    train_with_different_feature_combinations(opt_linear_model,test_combinations_of_four_columns,"linear")
+    #train_with_different_feature_combinations(opt_dt,test_combinations_of_three_columns,"dt")
+    #train_with_different_feature_combinations(opt_dt,test_combinations_of_four_columns,"dt")
+    #train_with_different_feature_combinations(opt_rdf,test_combinations_of_three_columns,"rdf")
+    #train_with_different_feature_combinations(opt_rdf,test_combinations_of_four_columns,"rdf")
 

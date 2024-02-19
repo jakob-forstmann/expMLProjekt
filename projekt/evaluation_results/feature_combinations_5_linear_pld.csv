@@ -1,0 +1,6 @@
+,columns,RMSE across 5 folds,MEA across 5 folds
+0,"('danceability', 'track_album_name', 'tempo', 'key')",-0.2328,-0.1775
+1,"('danceability', 'track_album_name', 'tempo', 'mode')",-0.2329,-0.1776
+2,"('danceability', 'track_album_name', 'key', 'mode')",-0.2353,-0.1787
+3,"('danceability', 'tempo', 'key', 'mode')",-0.2196,-0.1821
+4,"('track_album_name', 'tempo', 'key', 'mode')",-0.2458,-0.1883

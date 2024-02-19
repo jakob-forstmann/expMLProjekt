@@ -1,0 +1,6 @@
+,columns,RMSE across 5 folds,MEA across 5 folds
+0,"('danceability', 'track_name', 'tempo', 'key')",-0.2141,-0.1746
+1,"('danceability', 'track_name', 'tempo', 'mode')",-0.2139,-0.1746
+2,"('danceability', 'track_name', 'key', 'mode')",-0.2186,-0.1797
+3,"('danceability', 'tempo', 'key', 'mode')",-0.2176,-0.1771
+4,"('track_name', 'tempo', 'key', 'mode')",-0.2276,-0.1887

@@ -1,0 +1,11 @@
+,columns,RMSE across 5 folds,MEA across 5 folds
+0,"('danceability', 'track_album_name', 'tempo')",-0.2329,-0.1776
+1,"('danceability', 'track_album_name', 'key')",-0.2353,-0.1786
+2,"('danceability', 'track_album_name', 'mode')",-0.2355,-0.1788
+3,"('danceability', 'tempo', 'key')",-0.2196,-0.1821
+4,"('danceability', 'tempo', 'mode')",-0.2196,-0.1821
+5,"('danceability', 'key', 'mode')",-0.2197,-0.1822
+6,"('track_album_name', 'tempo', 'key')",-0.2459,-0.1883
+7,"('track_album_name', 'tempo', 'mode')",-0.2459,-0.1883
+8,"('track_album_name', 'key', 'mode')",-0.2481,-0.1892
+9,"('tempo', 'key', 'mode')",-0.2325,-0.1952
