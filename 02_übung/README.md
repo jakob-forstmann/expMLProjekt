@@ -75,7 +75,7 @@ unterschiedlicher CPU Auslastung zum Testzeitpunkt ablaufen. Dies könnte uns ü
 Die Punkte aller drei Datensätze wurden in 2 Klassen,rot und blau eingeteilt und bei allen Datensätzen sind die Punkte die zum Testdatenset gehören halb transparent.
 Das zweite Datenset besteht aus zwei ineinanderverschachtelte Halbmonde wohingegen sich für das dritte Datenset die meisten Datenpunkte auf der rechten Seite für die rote Klasse bzw. auf der linken für die blaue Klasse befindet. Für das erste Datenset befinden sich die meisten Punkte für die rote Klasse in der linken oberen Ecke,die meisten Punkte für die blaue Klasse dagegen in 
 der rechten unteren Ecke.
-### Unterschiede bei der Decision Boundary der verschiednene Algorithmen:
+### Unterschiede bei der Decision Boundary der verschiedenen Algorithmen:
 Die Decision Boundary für SVM teilt die Daten in Streifen auf wogegen bei Decision Tree die Decision Boundary und Random Tree eine rechteckige Form hat. Die restlichen Decision Boundaries 
 haben die Form von Kreisen
 ### Was bedeutet linear seperable ?
