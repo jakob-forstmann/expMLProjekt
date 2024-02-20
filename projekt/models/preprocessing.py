@@ -1,10 +1,14 @@
+from functools import cache
+from os import path
 import pandas as pd 
 import numpy as np 
-from functools import cache
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+
+
+PROJECT_DIR = path.split(path.dirname(__file__))[0]
 
 def read_entire_dataset(file_name:str)-> pd.DataFrame:
     """reads the dataset from a csv file.Returns the dataset as a Dataframe"""
@@ -59,7 +63,7 @@ def create_dataset(select_columns=get_column_names):
     """ builds the cleaned dataset.Removes unnecesary columns and 
     junk data from the columns"""
     columns_to_use = select_columns()
-    spotify_songs_complete  = read_entire_dataset("../data/spotify_songs.csv")
+    spotify_songs_complete  = read_entire_dataset(path.join(PROJECT_DIR,"data/spotify_songs.csv"))
     spotify_songs  = keep_necessary_columns(spotify_songs_complete,columns_to_use)
     spotify_songs  = rescale_data_range(spotify_songs,["danceability","valence"])
     spotify_songs  = rescale_data_range(spotify_songs,["tempo"],threshold=230)
@@ -73,6 +77,6 @@ def sample_split_from_dataset(percentage=0.1,songs=None):
 
 def save_cleaned_dataset():
     spotify_songs = create_dataset()
-    spotify_songs.to_csv("../data/cleaned_data.csv")
+    spotify_songs.to_csv(path.join(PROJECT_DIR,"data/cleaned_data.csv"))
 
 
