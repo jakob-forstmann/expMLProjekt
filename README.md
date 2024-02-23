@@ -23,7 +23,7 @@ source .venv/bin/activate
 ``` 
 Um das Projekt ausführen zu können, kann es notwendig sein die Umgebungsvariable `PYTHONPATH`
 nachträglich auf die entsprechenden Pfade zu setzten. Dies kann  unter Linux und in der WSL 
-z.b. so erreicht werden:
+z.b.so erreicht werden:
 ``` 
 PYTHONPATH="/path/to/projekt":$PYTHONPATH 
 PYTHONPATH="/path/to/projekt/models":$PYTHONPATH 
@@ -36,7 +36,7 @@ export PYTHONPATH
 Um mithilfe der Spotify API Songs Empfehlungen zu generieren sind folgende Schritte notwendig:
 
 0. ggf.Spotify Account erstellen(egal ob premium oder free Account)
-1. Spotify CLIENT ID und CLIENT SECRET generieren, eine Anleitung gibt es [hier](https://developer.spotify.com/documentation/web-api)
+1. für den API Zugriff eine CLIENT ID und ein CLIENT SECRET erstellen,eine Anleitung gibt es [hier](https://developer.spotify.com/documentation/web-api)
 2. eine neue Datei `API_Keys.py` im Ornder `spotify_API` erstellen und die CLIENT ID und das CLIENT SECRET dort hin kopieren
 
 

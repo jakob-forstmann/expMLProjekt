@@ -19,7 +19,7 @@
     - [Feature Importance](#feature-importance)
 - Ausblick
     - [Songs Vorschläge basierend auf den Vorhersagen des Modells](#songs-vorschläge-basierend-auf-den-vorhersagen-des-modells)
-
+    - [mögliche weitere Aufgaben](#mögliche weitere Aufgaben)
 
 
 
@@ -348,10 +348,10 @@ man im Prinzip ein unsupervised ML Algorithmus benutzten um bei unbekannten  ode
 könnte man mit diesen Features dann vermutlich bessere Songempfehlungen generieren.
 
 
-## Ausblick
+## mögliche weitere Aufgaben:
 Mit genügend Zeit könnte man die Parameter für die TF-IDF Transformation noch optimieren,z.B, eine Liste an Stopwörtern benutzen oder die Songtitel vorher 
 lemmatisieren und/oder stemmen. Da in sklearn allerdings kein Lemmatizer integretiert ist,müsste man dafür eine andere Bibliothek z.B.spacy nutzten ebenso 
-wie für die Liste an Stopwörtern. Darüber hinaus könnte man versuchen den Songtext als weiteres Feature zu nutzen denn laut einer [Spotify Studie](https://research.atspotify.com/2022/07/the-contribution-of-lyrics-and-acoustics-to-collaborative-understanding-of-mood) hat dieser einen größeren Einfluss als das ebenfalss
-in der Spotify API enthalte Feature acousticness. Für das RNN Model müsste man noch die Anzahl an Epochen von 10 auf z.B. 100 oder gar 1000 erhöhen um 
-Ergebnisse in einer annehmbaren Orndung zu erzielen oder sogar bessere Ergebnisse als der RDF.Zudem könnte man die Anzahl an Hidden Nodes im RNN optimieren genauso wie die Learning Rate. Zudem könnte man mit mehr Zeit das RNN länger trainieren und so hoffentlich bessere Ergebnisse erzielen. Zum Schluss könnte man noch ausgefeilterte Modelle nutzen z.B. ein bi-direktionales RNN , ein stacked RNN oder ein RNN mit Attention Mechanismus.
+wie für die Liste an Stopwörtern. Darüber hinaus könnte man versuchen den Songtext als weiteres Feature zu nutzen denn laut einer [Spotify Studie](https://research.atspotify.com/2022/07/the-contribution-of-lyrics-and-acoustics-to-collaborative-understanding-of-mood) hat dieser einen größeren Einfluss als das ebenfalls
+in der Spotify API enthaltene Feature acousticness. Für das RNN Model müsste man noch die Anzahl an Epochen von 10 auf z.B. 100 oder gar 1000 erhöhen um 
+Ergebnisse in einer annehmbaren Orndung zu erzielen oder sogar bessere Ergebnisse als der RDF. Zudem könnte man die Anzahl an Hidden Nodes im RNN optimieren genauso wie die Learning Rate. Zudem könnte man mit mehr Zeit das RNN länger trainieren und so hoffentlich bessere Ergebnisse erzielen. Zum Schluss könnte man noch ausgefeilterte Modelle nutzen z.B. ein bi-direktionales RNN , ein stacked RNN oder ein RNN mit Attention Mechanismus.
 
