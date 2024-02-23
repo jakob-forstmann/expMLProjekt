@@ -51,15 +51,19 @@ def optimize_min_split_samples():
     print(f" MEA  mean across different min_samples_split {MEA_results.mean()} std {MEA_results.std()}")
 
 def get_dt_for_experiments():
-    """ always return the same decision tree that 
-    can be used for testing some hyperparemeters"""
+    """ a helper function that always return the same decision tree.
+        Used for testing some hyperparemeters"""
     return  DecisionTreeRegressor(random_state=0)
 
 
 def get_optimized_dt():
+    """ helper function to get the DT with 
+        the best found hyperparameters"""
     return DecisionTreeRegressor(random_state=0,max_depth=9)
 
 def evaluate_default_decision_tree():
+    """trains a decision tree with the default 
+        arguments provided by sklearn on the dataset"""
     dt = get_dt_for_experiments()
     piped_dt = build_model(dt)
     RMSE_result,MEA_result = evaluate_experiments(piped_dt)
@@ -67,12 +71,17 @@ def evaluate_default_decision_tree():
 
 
 def select_criterion_results(cv_results):
+    """ a helper function to retrieve the RMSE 
+        and MAE scores for the different criterions"""
     results = [cv_results[0:MAX_DEPTH_UPPER-1],cv_results[MAX_DEPTH_UPPER-1:]]
     results_description =["MSE criterion","Friedman MSE criterion"]
     parameter_description="max_depth"
     return results,results_description,parameter_description
 
 def select_splitter_results(cv_results):
+    """ a helper function to retrieve the RMSE 
+        and MAE scores for the different values for
+        the splitting criterion"""
     results = [cv_results[::2],cv_results[1::2]]
     results_description =["random splitter","best splitter"]
     parameter_description="max_depth"
@@ -82,9 +91,9 @@ def select_splitter_results(cv_results):
 
 if __name__ =="__main__":
     max_depth_range = list(range(1,MAX_DEPTH_UPPER))
-    #optimize_parameter()
-    #optimze_splitter()
-    #optimize_min_split_samples()
+    optimize_parameter()
+    optimze_splitter()
+    optimize_min_split_samples()
     evaluate_default_decision_tree()
     plot_results("../evaluation_results/dt_evaluation.csv",max_depth_range,select_criterion_results)
     plot_results("../evaluation_results/splitter_evaluation.csv",max_depth_range,select_splitter_results)

@@ -9,6 +9,9 @@ from dataset_statistics import plot_error_scores
 
 
 def test_different_dataset_sizes(model):
+    """ trains the models on different splits of the 
+        original datasets.The sizes range from 10% to the 
+        full dataset with steps of 10."""
     piped_model = build_model(model)
     MEA_results = []
     RMSE_results = []

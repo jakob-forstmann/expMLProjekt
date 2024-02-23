@@ -35,6 +35,8 @@ def test_combinations_of_four_columns():
     return list(combinations(columns[:-1],len(columns)-2))
    
 def test_combinations_of_three_columns():
+    """returns all combinations of three columns from
+    the five used columns"""
     columns = get_column_names()
     return list(combinations(columns[:-1],len(columns)-3))
 

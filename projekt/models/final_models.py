@@ -5,19 +5,22 @@ from experiments.find_RDF_parameters import get_optimized_rdf
 from experiments.find_lasso_parameters import get_optimized_linear_model
 
 class DecisionTreeWrapper(metaclass=Estimator):
+    """ a class Wrapper that returns the optimized DT
+        used to for the CLI"""
     def __init__(self):
         self.model = build_model(get_optimized_dt())
 
-    def __str__(self):
-        return "decision tree"
 
 class RandomForestWrapper(metaclass=Estimator):
+    """ a class Wrapper that returns the optimized 
+        Random Forest.used to for the CLI"""
     def __init__(self):
         self.model = build_model(get_optimized_rdf)
 
-    def __str__(self):
-        return "Mean Baseline"
+
 class LinearModelWrapper(metaclass=Estimator):
+    """ a class Wrapper that returns the optimized 
+        linear Model.used to for the CLI"""
     def __init__(self):
         self.model = build_model(get_optimized_linear_model())
 

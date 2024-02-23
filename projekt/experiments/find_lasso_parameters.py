@@ -15,10 +15,14 @@ evaluation_parameter = {
 }
 
 def get_lasso_model_for_experiments():
+    """ a helper function that always return the same linear model.
+        Used for testing some hyperparemeters"""
     return Lasso(random_state=0)
 
 
 def get_optimized_linear_model():
+    """ helper function to get the linear model with 
+        the best found hyperparameters"""
     return LinearRegression(fit_intercept=False)
 
 def find_lasso_parameters():
@@ -36,25 +40,27 @@ def train_OLS():
     lasso is discouraged in the documentation"""
     piped_liner = build_model(LinearRegression())
     piped_linear_unbiased = build_model(LinearRegression(fit_intercept=False))
-    test_RMSE_with_bias,test_MEA_with_bias = evaluate_experiments(piped_liner)
-    test_RMSE_unbiased,test_MEA_unbiased = evaluate_experiments(piped_linear_unbiased)
-    print("TEST RMSE WITH BIAS",round(test_RMSE_with_bias,4))
-    print("test MEA  WITH BIAS",round(test_MEA_with_bias,4))
-    print("TEST RMSE WITHOUT BIAS",round(test_RMSE_unbiased,4))
-    print("test MEA  WITHOUT BIAS",round(test_MEA_unbiased,4))
-    return test_RMSE_unbiased,test_RMSE_with_bias,test_MEA_with_bias,test_MEA_unbiased
+    test_RMSE_with_intercept,test_MEA_with_intercept = evaluate_experiments(piped_liner)
+    test_RMSE_without_intercept,test_MEA_without_intercpet = evaluate_experiments(piped_linear_unbiased)
+    print("TEST RMSE WITH BIAS",round(test_RMSE_with_intercept,4))
+    print("test MEA  WITH BIAS",round(test_MEA_with_intercept,4))
+    print("TEST RMSE WITHOUT BIAS",round(test_RMSE_without_intercept,4))
+    print("test MEA  WITHOUT BIAS",round(test_MEA_without_intercpet,4))
+    return test_RMSE_without_intercept,test_RMSE_with_intercept,test_MEA_with_intercept,test_MEA_without_intercpet
     
 
 def select_linear_regression_results(cv_results):
-    lasso_results_unbiased = cv_results[0::2]
-    lasso_results_with_bias = cv_results[1::2]
+    """a helper function to retrieve the RMSE 
+        and MAE scores for model with and without intercept"""
+    res_without_intercept = cv_results[0::2]
+    res_with_intercept = cv_results[1::2]
     results_description = ["Model without Intercept","Model with Interept"]
     parameter_description="alpha range"
-    return [lasso_results_unbiased,lasso_results_with_bias],results_description,parameter_description
+    return [res_without_intercept,res_with_intercept],results_description,parameter_description
    
     
 if __name__ =="__main__":
-    #find_lasso_parameters()
+    find_lasso_parameters()
     test_RMSE_unbiased,test_RMSE_with_bias,test_MEA_with_bias,test_MEA_unbiased = train_OLS()        
     unbiased_baselines =  {"RMSE score for OLS":test_RMSE_unbiased,"MEA score for OLS":test_MEA_unbiased}
     baselines_with_bias =  {"RMSE score for OLS":test_RMSE_with_bias,"MEA score for OLS":test_MEA_with_bias}

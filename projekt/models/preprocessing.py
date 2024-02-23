@@ -75,8 +75,4 @@ def sample_split_from_dataset(percentage=0.1,songs=None):
     spotify_songs = create_dataset() if songs is None else songs
     return spotify_songs.sample(frac=percentage,random_state=0)
 
-def save_cleaned_dataset():
-    spotify_songs = create_dataset()
-    spotify_songs.to_csv(path.join(PROJECT_DIR,"data/cleaned_data.csv"))
-
 

@@ -4,8 +4,8 @@ from find_RDF_parameters import get_optimized_rdf
 from find_lasso_parameters import get_optimized_linear_model
 from sklearn.decomposition import TruncatedSVD
 from sklearn.inspection import DecisionBoundaryDisplay
-import matplotlib.pyplot as plt
 from sklearn.metrics import PredictionErrorDisplay
+import matplotlib.pyplot as plt
 
 def reduce_dimensionality(dataset):
     """ reduces the spotify dataset to two 
@@ -36,6 +36,8 @@ def plot_decision_boundaries(regressor):
 
 
 def plot_linear_reg_residuals(regressor):
+    """plots the predictions of the linear model 
+        with the residuals"""
     spotify_songs = create_dataset()
     piped_liner = build_model(regressor)
     X_train,X_test,y_train,y_test = split_data(spotify_songs)
@@ -93,7 +95,6 @@ if __name__ =="__main__":
     opt_dt = get_optimized_dt()
     opt_linear_modell = get_optimized_linear_model()
     plot_linear_reg_residuals(opt_linear_modell)
-    plot_linear_regression(opt_dt)
     plot_decision_boundaries(opt_dt)
     plot_decision_boundaries(opt_rdf)
     plot_predictions(opt_linear_modell)

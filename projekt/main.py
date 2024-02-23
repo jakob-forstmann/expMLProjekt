@@ -6,6 +6,8 @@ from models.final_models import DecisionTreeWrapper,RandomForestWrapper,LinearMo
 from models.baselines import Estimator 
 
 def evaluate(model:Estimator,X_train,x_test,y_train,y_test):
+    """calculcates the RMSE and the MAE for  the given model 
+        using 5 fold cross validation""" 
     evaluation_metrics = ["neg_root_mean_squared_error","neg_mean_absolute_error"]
     cv_score = cross_validate(model,X_train,y_train,scoring=evaluation_metrics,cv=5)
     print("Training Dataset")
@@ -27,6 +29,6 @@ if __name__=="__main__":
     model_name = parser.parse_args().__dict__["model"]
     model = Estimator.get_model(model_name)
     spotify_songs = create_dataset()
-    x_train,x_test,y_train,y_test = split_data(spotify_songs)   
+    x_train,x_test,y_train,y_test = split_data(spotify_songs)
     evaluate(model,x_train,x_test,y_train,y_test)
     

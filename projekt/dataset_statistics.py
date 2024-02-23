@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def plot_valence_range():
+    """calculates the distribution of valence values and plots them"""
     spotify_songs = create_dataset()
     grouped_values = pd.cut(spotify_songs["valence"],bins=5)
     grouped_data = spotify_songs.groupby(grouped_values,observed=False).count()
@@ -10,6 +11,7 @@ def plot_valence_range():
     create_bar_plot(grouped_data,"valence Intervall","Anzahl an Datenpunkten")
 
 def plot_valence_frequencies():
+    """calculates the frequency of each vvalence value and plots them"""
     distribution = count_unique_valence_values()
     grouped_frequencies = distribution.value_counts().sort_values(ascending=False)
     grouped_frequencies = grouped_frequencies[3:]
@@ -17,6 +19,8 @@ def plot_valence_frequencies():
 
 
 def plot_error_scores(error_scores,parameter,plot_title,x_label,stds=None,baselines=None):
+    """  a helper function that plots the RMSE and MAE scores with optional standard deviation and/or baselines
+         has the same parameters as plot_results"""
     plt.figure(figsize=(12, 6))
     if baselines is not None:
         for baseline_label,baseline in baselines.items():
@@ -38,6 +42,12 @@ def plot_error_scores(error_scores,parameter,plot_title,x_label,stds=None,baseli
     plt.show()
 
 def plot_results(file_name,parameter_range,select_results,baselines=[None,None]):
+    """plots the results from a csv file
+        parameters:
+            - error scores: a pd.DataFrame with the RMSE and MAE scores as columns
+            - parameter: a range for the tested hyperparamter f.ex for max_depth a range between 1 and 30
+            - select_results: a Callable that returns the  RMSE and MAE results f.ex.for the tested hyperparameter
+            - baselines: a Dictionary {" score baseline name":baseline score}"""
     cv_results = pd.read_csv(file_name)
     columns_to_use = [ "mean_test_neg_root_mean_squared_error","mean_test_neg_mean_absolute_error",
                        "std_test_neg_root_mean_squared_error","std_test_neg_mean_absolute_error"] 
