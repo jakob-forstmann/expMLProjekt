@@ -116,7 +116,8 @@ Die Evaluierung wurden mit  mit 5 facher Kreuzvalidierung durchgeführt.Dabei be
 für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
 ![Baselines](plots/baseline_evaluation.png)
 
-Dabei messen beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten valence und der tatsächlichen valence des aktuellen Songs angeben in rationalen Zahlen zwischen 0 und 1 ist. Eine niedriger Wert bedeutet dabei,dass die Vorhersage des Modells recht gut war da die Differenz zwischen dem vorhergesagten und der Gold valence gering ist. Dabei kann der Root Mean Squared Error(im Folgenden RMSE) als die Standardabweichung der Residuals die sich aus der Differenz zwischen der Vorhersage und dem tatsächlichen Wert berechnen interpretiert werden.
+Dabei messen beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten valence und der tatsächlichen valence des aktuellen Songs angeben in rationalen Zahlen zwischen 0 und 1 ist. Eine niedriger Wert bedeutet dabei,dass die Vorhersage des Modells recht gut war da die Differenz zwischen dem vorhergesagten und der Gold valence gering ist. Dabei kann der Root Mean Squared Error(im Folgenden RMSE) als die Standardabweichung der Residuals die sich aus der Differenz zwischen der Vorhersage und dem tatsächlichen Wert berechnen interpretiert werden. Der MAE dagegen kann interpretiert werden als durschnittlicher Fehler bzw.Abweichung
+der Vorhersage angegeben in Prozent.
 
 Die Mean Baseline hat dabei für beide Metriken am besten performt,sie liegt mit einem MAE von gerundet -0.2348 etwa im Durschnitt etwa 23% neben dem tatsächlichen 
 Wert bei einer Standardabweichung von ca. 19%. Der Grund warum die Mean Baseline so gut abschneidet ist,dass der Durschnitt von etwa 0.51 im Intervall der häufigsten Werte liegt. Dadurch ist der Fehler der Mean Baseline in diesem Intervall schon mal kleiner als die Intervallbreite von 0.2 wodurch sich für die meisten Werte 
@@ -127,8 +128,8 @@ eben jener niedriger Fehler ergibt. Für die Werte in dem linken Intervall,jenes
 Bevor wir die Resultate mit dem Decision Tree(DT) diskutieren schauen wir uns in dem Plot unten die Decision Boundary des optimierten Decision Trees an.
 Dabei wurden die 4 verwendeten Features wie bereits zuvor mit Truncated SVD auf 2 Dimensionen reduziert.
 ![decision tree decision boundary](plots/optimal_dt_decision_boundary.png)
-Anhand des Plots kann man gut erkennen dass ein DT für Regression wie jener für Klassifikation den zweidimensionalen Raum in dem die Werte für die Stimmung 
-geplottet wurden in verschiedene kleinere Bereiche unterteilt.Dabei wird für jeden Wert in einem Bereich,der ein Blatt in dem DT darstellt, der Mittelwert der Werte für die Blätter als Vorhersage genutzt.Durch die Aufteilung des Raumes kann ein DT die glockenkurven ähnliche Funktion die im vier dimensionalen Raum die Verteilung 
+Anhand des Plots kann man gut erkennen dass ein DT für Regression wie jener für Klassifikation den zweidimensionalen Raum in kleinere Bereiche für die unterschiedlichen 
+Werte für die Stimmung unterteilt.Dabei wird für jeden Wert in einem Bereich,der ein Blatt in dem DT darstellt, der Mittelwert der Werte für die Blätter als Vorhersage genutzt. Durch die Aufteilung des Raumes kann ein DT die glockenkurven ähnliche Funktion die im vier dimensionalen Raum die Verteilung 
 der Werte für die Stimmung modelliert approximieren.
 
 Ein Decision Tree hat dabei den Vorteil dass er leicht zu interpretieren,da er durch seine Baumstruktur als eine Kaskade von if-else Abfragen aufgefasst werden kann.
@@ -137,7 +138,7 @@ Außerdem ist er vergleichsweise schneller Algorithmus, von den in diesem Projek
 ## Optimierung der Hyperparameter für den Decision Tree: 
 ![max_depth_evaluation_30_estimators](plots/dt_mse_evaluation.png)
 
-Wie in dem Plot zu erkennen ist,verschlechtert der RMSE ab einer max_depth von 7 schneller ab als der MAE sich verbessert. Die blaue bzw. orange Fächen um die Kurven sind dabei die jeweilige Standabweichung bei der durschnitttlichen Wert über 5 Folds. Zusammenfassend habe ich mich für eine `max_depth` von 7 entschieden,da sich ab diesem Wert die Vorhersage nicht bessert aber die Standardabweichung des Fehler,der RMSE, sich vergrößert.
+Wie in dem Plot zu erkennen ist,verschlechtert der RMSE ab einer max_depth von 7 schneller ab als der MAE sich verbessert. Die blaue bzw. orange Fächen um die Kurven sind dabei die jeweilige Standabweichung über die 5 verwendeten Folds.Zusammenfassend habe ich mich für eine `max_depth` von 7 entschieden,da sich ab diesem Wert die Vorhersage nicht bessert aber die Standardabweichung des Fehler,der RMSE, sich vergrößert.
 
 
 Als nächstes habe ich das Splitting Kriterium `Friedman MSE` welches eine verbesserte Version des des standarmäßigen Kriterium `MSE` ist,angeschaut. 
@@ -146,22 +147,23 @@ Das Splitting Kriterium bestimmt welche Metrik an jedem Knoten berechnet wird um
 
 Wie in dem Plot zu erkennen ist,sind die Resultate nahezu identisch wobei der DT mit dem Standardkriterium leicht besser abschneidet.
 Zum Schluss habe ich noch den Hyperparameter `min_split_samples` 
-ausprobiert mit jedoch nur einem geringen Einfluss auf die beiden Metriken. Insgesamt habe ich nur die `max_depth`des DT auf 7 gesetzt und
+ausprobiert mit jedoch nur einem geringen Einfluss auf die beiden Metriken. 
+Alle weiteren Resultate finden sich in dem Ordner `evaluation_results` in den Dateien die als Suffix `dt` besitzten
+Insgesamt habe ich nur die `max_depth`des DT auf 7 gesetzt und
 ansonsten die Default Werte für die getesteten Hyperparameter genutzt.
-Alle Ergebnisse der Hyperparameter Optimierung können in den jeweiligen 
-csv Dateien in dem  Ordner [evaluation_results](evaluation_results) angesehen werden.
-
 
 ## Random Forest
 Bevor wir die Resultate mit dem Random Forest(RDF) diskutieren schauen wir uns in dem Plot unten die Decision Boundary des optimierten RDF an.
 Dabei wurden die 4 verwendeten Features wie bereits zuvor mit Truncated SVD auf 2 Dimensionen reduziert.
 ![decision tree decision boundary](plots/optimal_rdf_decision_boundary.png)
-Anhand des Plots kann man gut erkennen dass ein DT für Regression wie jener für Klassifikation den zweidimensionalen Raum in dem die Werte für die Stimmung 
-geplottet wurden in verschiedene kleinere Bereiche unterteilt.Dabei wird für jeden Wert in einem Bereich,der ein Blatt in dem DT darstellt, der Mittelwert der Werte für die Blätter als Vorhersage genutzt.Durch die Aufteilung des Raumes kann ein DT die glockenkurven ähnliche Funktion die im vier dimensionalen Raum die Verteilung 
-der Werte für die Stimmung modelliert approximieren.
+Anhand des Plots kann man gut erkennen dass ein Random Forest ähnlich wie ein DT den zweidimensionalen Raum für die unterschiedlichen 
+Werte für die Stimmung unterteilt in kleinere Bereiche unterteilt. Im Unterschied zum DT benutzt der Random Forest dabei in diesem Fall 30 verschiedene 
+randomisierte Bäume, wodurch sich eine feinere Unterteilung des Raumes ergibt.Die Vorhersage für einen bestimmte Punkt wird dabei mit Majority Voting bestimmt 
+d.h. der RDF nimmt jenen Wert für den die meisten der 30 DT vorhersagen,also gewissermaßen für "abstimmen". Wie beim DT kann durch die hier feinere Aufteilung des Raumes in RDF die glockenkurven ähnliche Funktion die im vier dimensionalen Raum die Verteilung der Werte für die Stimmung modelliert approximieren.
+Wie für den DT habe ich für den RDF ebenfalls verschiedene Hyperparameter ausprobiert.
 
-### Hyperparameter für den Random Forest:
-
+## Hyperparameter für den Random Forest:
+Als erstes habe ich die Anzahl an DT die der RDF benutzt variiert.
 | Anzahl DT | max_depth | gerundeter höchster RMSE über 5 Folds | dazugehöriger MAE über 5 folds
 |-----------|-------------|---------------------------------------|------------------------------|
 | 10 | 17 |  -0.1982 | -0.1607 |
@@ -175,83 +177,142 @@ der Werte für die Stimmung modelliert approximieren.
 | 20 | 27 | -0.1577   |-0.1958 |
 | 30 | 27 | -0.1571| -0.1950| 
 
+Aus den Tabellen oben lässt sich erkenen, dass ein RDF mit 30 Estimators für beide Metriken am besten abschneidet auch 
+wenn der Unterschied zwischen einem RDF mit 20 und 30 DTs gering erscheint.
 
-### Einfluss der maximalen Tiefe auf den RMSE bzw. MEA:
 
 ![max_depth_30_estimators_evaluation](plots/max_depth_30_estimators_evaluation.png)
+Die Plots für 10 und 20 estimators sind sehr ähnlich und sind im Ordner `plots` zu finden.
+Anhand diesem Plot kann man erkennen,das der RMSE und MEA steigen je größer die Tiefe der 30 Estimators werden. Ein Vergleich mit einem RDF der nur pure Knoten enthält performt zwar etwas schlechter,siehe Tabelle,hat aber eine deutlich kürzere Trainingszeit.Im Vergleich zu einem RDF mit 100 Estimators und puren Knoten ergibt sich zwar nochmal eine verbesserte Performanz gegenüber einem RDF mit max_depth 27 aber auf Kosten einer deutlich längern Trainingszeit im Vergleich zu 
+den beiden anderen RDFs.
 
-Der Einfluss des max_depth Parameter wurde jeweils mit 10,20 und 30 Estimators untersucht. 
-Die Plots dazu sind sich sehr ähnlich weswegen hier nur der Plot für 30 Estimators augefführt ist.
-Die Plots für 10 und 20 estimators kann man im Ordner `plots` nachschauen.
+| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds |
+|-------|-----------------------|-------------------|
+| Default Random Forest mit 30 estimators| -0.1969 |-0.1511|
+| Default Random Forest mit 100 estimators| -0.1944 |-0.1478|
+| Random Forest mit 30 estimators und max_depth=27 | -0.1948| -0.1571| 
+ 
+Die weiteren Hyperparameter die ich für den DT getestet habe,wurden hier nicht erneut getestet da sie beim DT keinen signifikanten Einfluss hatten und die Training Time des RDF schon über 10 Minuten betrug. Alle weiteren Resultate finden sich in dem Ordner `evaluation_results` in der Datei `rdf_parameters.csv`
+Zusammenfassend wurden keine der getesteten Parameter für den RDF geändert bis auf die Anzahl an DT,diese wurden auf 30 gesetzt. 
+
+## Lineare Regression
+Da die lineare Regression im Gegensatz zu den beiden vorherigen Modellen ein lineares Modell ist,waren meine Hoffnungen auf eine bessere Performanz eher gering.
+Im Prinzip legt die lineare Regression eine Hyperebene in den 4 dimensionalem Raum mit 3 Vektoren und einem Intercept, der den Abstand der Hyperebene zum Ursprung angibt.
+Darüber hinaus habe ich noch lineares Modell mit R1 Regularisierung,auch Lasso genannt,ausprobiert. Laut sklearn Dokumentation bevorzugt das Lasso Modell Koeffizienten 
+die weniger sparse also weniger 0en enthalten.
+
+## Hyperparameter für die regularisierte Lineare Regression:
+![max_depth_30_estimators_evaluation](plots/lasso_model_without_intercept.png)
 
 
-## Hyperparameter der Linearen Regression:
-| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds | Unterschied |std über 5 Folds|
+![max_depth_30_estimators_evaluation](plots/lasso_model_with_intercept.png)
+
+Der Parameter alpha kontrolliert wie stark der Regularisierungsterm 
+gewichtet wird. In den beiden Plots kann man erkennen,dass ein Modell
+ohne Regularisierung ein sogenannntes OLS am besten performt. Außerdem verschlechteren sich bei dem Modell ohne Intercept beide Metriken je mehr regularisiert wird d.h. je größer der Parameter alpha wird wobei die Standardabweichung zwischen den 5 verschiedenen Folds gering ist. Der zweite Plot hat mich überrascht,denn die Regularisierung scheint keinen Einfluss zu haben auf die beiden Metriken bei einem Modell
+mit Intercept. Allerdings ist bei diesem Modell die Standarbweichung zwischen den 5 verschiedenen Folds größer als bei einem Modell ohne Intercept.In beiden Fällen 
+performt das OLS,ein lineares Modell ohne Regularisierung,für beide Metriken besser als die regularisierten Varianten.
+Zum Schluss habe ich mir noch den Performance Unterschied zwischen einem linearem Modell mit und ohne intercept angeschaut. Aus der Tabelle lässt sich erkennen,dass nur ein
+sehr kleiner Unterschied besteht wobei das Modell ohne Intercept besser abschneidet
+mit einem durchschnittlichen Fehler von 23,45% gegenüber einem durschnittlichen Fehler von 23.95%.
+
+| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds | Unterschied |std über 5 Folds| 
 |--------|-------------------------------------|--------------------------------------|------------|-----------------|
 | lineares modell mit Intercept | -0.2395 | -0.1808|<0.01| <0.01  |
 | lineares Modell ohne Intercept| -0.2345| -0.1785| < 0.01| < 0.01 |
 
+Ein möglicher Grund könnte sein,dass sich die Werte für die Stimmung viele verschiedene
+Werte angenommen werden u.a. auch der Werte nahe 0. Deswegen ist ein Abstand zum Ursprung nicht wirklich nötig. Allerdings muss dazu gesagt werden dass wie im 3D Plot oben zu erkennen ist,nur wenige Werte nahe an der 0 liegen.Dies hat vermutlich zur Folge dass der Unterschied wie beobachtet klein ausfällt.
 
-### Lineares Modell mit L2 Regularisierung:
+## Neuronales Netz
+Für das Projekt habe ich ein MLP mit 2 und eines mit 4 Layern ausprobiert mit einer jeweils unterschiedlichen Anzahl an Nodes in jeder Layer.Ingesamt wurden folgende Hyperparamter getestet:
 
-![max_depth_30_estimators_evaluation](plots/lasso_model_without_intercept.png)
+- aktivierungsfunktionen: tanh und logistic regression
+- Anzahl Nodes pro Hidden Layer: 
+    - 2 Layer MLP:[(500,100),(100,100,100),(100,100,100,100)]
+    - 4 Layer MLP:[(50, 100, 50, 50),(16, 48, 48, 48),(100, 100, 100, 100)]
+- Solver um die Gewichte zu optimieren: adam und stochastic gradient descent (sgd)
+- nur 2 Layer MLP learning rate:[constant,adaptive,invscaling]
+- Regulariserungparamter alpha: [0.01,0.1] ( 0.001 für das 4 Layer MLP)
 
-
-![max_depth_30_estimators_evaluation](plots/lasso_model_with_bias_evaluation.png)
-
-Der Parameter alpha kontrolliert wie stark der Regularisierungsterm 
-gewichtet wird. In den beiden Plots kann man erkennen,dass ein Modell
-ohne Regularisierung ein sogenannntes OLS am besten performt. 
+Die adaptive bzw.invscaling Learning Rate(LR) verringert dabei die Learning Rate welche beeinflusst 
+wie stark die Gewichte in jedem Updateschritt angepasst werden. Bei der adaptiven LR wird dabei 
+erst verringert wenn in zwei aufeinander folgenden Epochen der Traningsloss nicht kleiner wird.
+Dagegen wird bei der invscaling LR in jedem Zeitschritt die LR graduell reduziert.
+Die besten Ergebnisse wurden dabei mit einem 2 Layer MLP mit 50 Knoten in der ersten und 100 Knoten in der zweiten 
+Layer,mit logistic regression als Aktivierungsfunktion,mit alpha=0.1,dem adam Optimierer erreicht.Die unterschiedlichen LR 
+Verfahren haben dabei keine Rolle gespielt. Die Resultate für die übrigen Kombinationen von Hyperparametern finden 
+sich in dem Ordner `evaluation_results` in den Dateien `mlp_parameter_4_layers.csv` bzw. `mlp_parameter_2_layers.csv`
 
 ## Vergleich der Modelle:
-| Modell| gerundeter höchster RMSE über 5 Folds |gerundeter höchster MEA über 5 Folds |
-|-------|-----------------------|-------------------|
-| lineares modell mit Intercept |  -0.2395 | -0.1808|
-| lineares Modell ohne Intercept|-0.2345 | -0.1785|
-| Decision Tree mit default max_depth|-0.2467| -0.1744|
-| Decision Tree mit max_depth=7|-0.2139|-0.1731|
-| Default Random Forest mit 30 estimators| -0.1969 |-0.1511|
-| Default Random Forest mit 100 estimators| -0.1944 |-0.1478|
-| Random Forest mit 30 estimators und max_depth=27 | -0.1948| -0.1571| 
+
+![](plots/model_evaluation.png)
+Der Plot zeigt die Ergebnisse auf dem Evaluation Dataset.
+Auf diesem hat der RDF mit 30 estimators insgesamt am besten abgeschnitten
+mit einem durschnittlicher Fehler von 17.4% und einer Standardabweichung von 15.11%.
+Auf dem zweitem Platz folgt das MLP mit einem leicht höheren Standardabweichung von 20.93%
+aber mit einem höheren durschnittlichen Fehler von 17.04%. Bei dem DT dagegen macht die Optimierung 
+der Hyperparameter den größten Unterschied bei dem RMSE von ca.0.3% aus. Bei den anderen Modellen
+war der Einfluss der verschiedenen Hyperparameter nicht so groß,für Details wird hier auf die einzelnen
+Dateien verwiesen. Die Lineare Regression fällt aus dem Rahmen,sie erreicht mit einem RMSE SCore von -0.2345 
+etwa den selben RMSE Score wie die Mean Baseline,wohingegen alle anderen Modelle diese Baseline übertreffen.
+Immerhin übertreffen alle Modelle den MAE Score der Mean Baseline,d.h. die Vorhersagen der Modelle liegen durschnittlich 
+näher an den tatsächlichen Werten als die Vorhersagen der Mean Baseline.
 
 
-Unterschied 100 Estimators und 30 Estimators <0.01. 
+![](plots/model_test_dataset.png)
+Auf dem Testdatenset ist ebenfalls der RDF das beste Modell,seine Vorhersagen liegen durschnittlich 14.43% weg von dem
+tatsächlichen Wert mit einer Standardabweichung von 19.16%. Danach folgt mit jeweils der DT mit einem ca. 2% höheren RMSE und MEA,gefolgt von dem linearen Modell
+das ein ca. 1% schlechteren RMSE erzielt bei etwa gleich bleibendem MEA.
+Das MLP performt für beide Metriken am schlechtesten von den vier getesten Modellen, es ist sogar schlechter als die Mean Baseline aber immerhin
+besser als die beiden anderen Baselines.
 
-test MEA std 0.0002598188683299422
-test RMSE std 0.0006071576937390772
-
+Der Plot unten visualisiert das schlechtere Abschneiden des Neuronal Networks. Man sieht,dass die Residuals für viele Wert sowohl große positive wie auch negative Zahlen annehmmen,d.h. die Residuals sind recht groß. Dabei gilt,je größer die Residuals desto weiter weg ist die Prediction von dem tatsächlichem Wert.
+![](plots/neuronal_network_residuals_vs_actual_values.png)
 
 ### Feature Importance der einzelnen Spalten
-Die angebenen Metriken sind  dabei der Durschnitt über die 5 Folds.
-
 |modell| Feature Kombination | MEA über 5 Folds | RMSE| 
 |------|----------------------|---------------------------|-------------------|
 | lineares Modell|danceability,track_name,tempo,mode|-0.2144| -0.176
 | lineares Modell|track_name,tempo,key,mode|-0.2266| -0.1884|
 | Decision Tree| danceability,track_album_name,tempo,mode|-0.2139|-0.175|
-| Decision Tree| track_album_name,tempo,key,mode|-0.2268|-0.188|
-| Random Forest| | | |
+| Decision Tree|danceability,track_name,tempo,key|-0.2141|0.1746
+| Decision Tree| track_name,tempo,key,mode|-0.2268|-0.188|
+| Random Forest| track_name,tempo,key,mode|-0.2094|-0.1603|
+| Random Forest|danceability,track_name,tempo,key|-0.1965|-0.1491|
 
-
-In der Tabelle sind jeweils die Kombination von 3 bzw. 4 verschiedenen Features mit den besten bzw. schlechtechsten RMSE bzw. MEA aufgeführt jeweils gerundet auf 4 Nachkommastellen. Die anderen Werte können in den Dateien im Ordner `evaluation_results` nachgelesen werden.
+In der Tabelle sind jeweils die Kombination von 4 verschiedenen Features mit den besten bzw. schlechtechsten RMSE bzw. MEA aufgeführt jeweils gerundet auf 4 Nachkommastellen. Die anderen Werte sowie die Resultatte für die Kombination von 5 Features können in den Dateien im Ordner `evaluation_results` nachgelesen werden.
+Interessanterweise erreicht die Lineare Regression ohne das feature Tonart nahezu den RMSE und MAE Score eines DT der mit allen Features traniniert wurde.
+Dies passt zu der für einen DT und RDF von sklearn berechneten Feature Importance, bei der aas Feature key als eher unwichtig erachtet wurde.
+Bei allen Modellen fällt auf dass die jeweils schlechteste Performanz dann erreicht wird, wenn das Feature danceability weggelassen wird. Dies spricht
+dafür,dass diese Feature für die Vorhersage der Stimmung durchaus wichtig ist.
+Die beste Performanz erreichen alle Modelle bei beiden metriken mit der KOmbinatioen danceability track_name,tempo und mode bzw. bei dem RDF wird mode mit key ausgetauscht.Allerdings fällt bei allen Modellen auf,dass die Performanz etwa gleich gut ist,wenn key durch mode bzw. bei dem RDF key mit mode ersetzt wird. 
+Beispielsweise beträgt der Unterschied beim DT für den RMSE nur 0.0002 und beim MAE ist er sogar noch kleiner. Dies legt den Schluss nahe,dass nur die beiden Features track_name,tempo und danceability relevant sind um die Stimmung eines Songs vorherzusagen.
 
 ### von sklearn berechnete Feature Importance: 
 
 ![max_depth_30_estimators_evaluation](plots/feature_importance.png)
+Die von sklearn berechnete Feature Importance für den DT und dem RDF bestätigt im wesentlichen meine Vermutungen aus dem obigen Abschnitt.
+Interessant ist,jedoch dass danceability für den DT deutlich wichtiger scheint als für den RDF. Dieser gewichtet die danceability ebenfalls 
+als wichtiger als das feature tempo,jedoch mit einem Unterschied von 0.038 
+im Gegensatz zum DT mit einem Unterschied von 0.2789.
 
-
-|Modell | danceability| tempo|key| mode|
-|---------------|-------------|------|---|----|
-| Decision Tree | 0.5212      |0.2331|0.0055|0.0015| 
-| Random Forest | 0.1887      |0.1507|0.0393|0.0091| 
-
-
-
-#### Die 10 wichtigsten Wörter für die Spalte track_name
-
+## Die 20 wichtigsten Wörter für den Songtitel
+Die 20 wichtigsten Wörtern  für den DT
 ![](plots/word_importance_dt.png)
 
+Die 20 wichtigsten Wörtern für den RDF
 ![](plots/word_importance_rdf.png)
+
+
+Insgesamt fällt auf,dass die meisten der wichtigsten Wörer 
+Eigenschaften des Songs  wie original oder feat(featuring),beschreiben anstatt den Songinhalt,wie ursprünglich angenommen,zusammenfassen.
+Die Wörter die keine Songeigenschaften beschreiben sind für beide Modelle  hauptsächlich Funktionswörter,wobei die meisten Wörter Präpositionen
+oder Personalpronomen sind. Das einzige Wort unter diesen mit lexikalischer Funktion ist `love`.
+Interessanterweise ist das wichtigste Wort für den RDF ein Funktionswort obwohl der RDF eine bessere Performanz für beide Metriken erzielt. Erst das zweitwichtigste Wort ist ein Inhaltswort welches eine Eigenschaft eines Songs beschreibt.
+Einerseits ist für mich nicht überraschend dassFunktionswörter zu den 20 wichtigsten Wörtern zählen,da sie allgemein im Sprachgebrauch sehr oft auftreten.Anderseits könnte man als eine mögliche Verbesserung könnte man eine Liste von Stopwörtern 
+benutzten. Dies würde die Funktionswörter herauszufiltern und so eine hoffentlich eine noch bessere Performanz erzielen. 
+und deswegen auch entsprechend oft in Album Titeln vorkommt. 
 
 gemeinsame Wörter: 
 | Wort | TF-IDF Wert DT | TF-IDF Wert RDF | Rang DT|Rang RDF|
@@ -261,54 +322,3 @@ gemeinsame Wörter:
 | remastered|0.008607|0.004918| 5 |8|
 |version| 0.009785|0.005344|3|7|
 
-Wörter mit höchstem TF-IDF score für den DT: 
-| Wort | TF-IDF Wert| 
-|------|------------|
-| original | 0.017417 | 
-| feat | 0.013377|
-| version | 0.009785 |
-| rock | 0.009003 |
-| remastered| 0.008607 |
-| remix | 0.007273 | 
-| highest | 0.006462 |
-| alabama | 0.006200 |
-| bad | 0.006026 |
-| de | 0.005736 |
-
-
-|the|0.012662|
-|feat |0.010687
-|remix|0.009445|
-| you| 0.007324|
-| me   |0.006757|
-| love  |0.005611|
-| version |0.005344|
-| remastered |0.004918|
-| on | 0.004420|
-|of | 0.004278|
-
-Wie erwartet gehören zwei Funktionswörter zu den 10 wichtigsten Wörtern, da sie allgemein im Sprachgebrauch sehr oft auftreten 
-und deswegen auch entsprechend oft in Album Titeln vorkommt. 
-Dies könnte vermieden werden, in dem man eine Liste an Stopwörtern benutzt. 
-
-
-## Verschiedene Splits der Datensets und die jeweiligen Metriken: 
-DT_RMSE:[-0.239, -0.2262, -0.2241, -0.2196, -0.2171, -0.2172, -0.2165, -0.2149, -0.2147, -0.2139] 
-DT MEA:[-0.193, -0.1845, -0.1834, -0.1793, -0.1767, -0.1774, -0.1766, -0.1754, -0.1754, -0.175]
-RDF_RMSE:[-0.22, -0.2123, -0.2115, -0.2065, -0.2044, -0.2045, -0.2031, -0.2017, -0.201, -0.2002] 
-DT MEA:[-0.179, -0.1729, -0.1722, -0.1678, -0.1654, -0.1658, -0.1646, -0.1634, -0.1628, -0.1623]
-linear RMSE:[-0.3698, -0.2934, -0.2855, -0.2676, -0.2561, -0.2563, -0.2499, -0.2418, -0.2407, -0.2354] LINEAR MEA:[-0.2724, -0.2229, -0.2172, -0.2027, -0.1934, -0.1921, -0.1874, -0.1828, -0.1817, -0.1781]
-
-
-
-
-
-Dabei habe ich mich bewusst dagegen entschieden die  verschiedenen Werte für die Stimmung
-zwischen 0 und 1 in Kategorien aufzuteilen denn ich finde es schwierig sinnvolle verschiedene Abstufungen von z.B. positiver Stimmung 
-zu finden und eine Rangordnung der Abstufungen zu definieren. Besonders schwierig erschien mir eine Unterscheidung zwischen den 
-niedrigsten positiven Stimmung und der höchsten negativen Stimmung. 
-Um die vorhergesagte Stimmung dennoch interpretieren zu können,kann man z.B. definieren dass der Wert 0.7 bedeutet,dass der Song 
-zu 70% eine positive Stimmung hat. Dies ist zwar weniger anschaulich und übersichtlicher als die Songs in verschiedene Kategorien zu ornden 
-hat aber den Vorteil, dass z.B. plötzliche Stimmungswechsel innerhalb eines Songs berücksichtigt werden.
-Außerdem wird so das Problem,dass ein Song potenziell zu zwei verschiedenen Kategorien gehören kann,z.B
-"ernergetic" und "happy", abgeschwächt. 

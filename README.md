@@ -21,6 +21,18 @@ git clone https://gitlab.cl.uni-heidelberg.de/forstmann/exp-ml-1-forstmann.git
 python -m venv .venv  
 source .venv/bin/activate
 ``` 
+Um das Projekt ausführen zu können, kann es notwendig sein die Umgebungsvariable `PYTHONPATH`
+nachträglich auf die entsprechenden Pfade zu setzten. Dies kann  unter Linux und in der WSL 
+z.b. so erreicht werden:
+``` 
+PYTHONPATH="/path/to/projekt":$PYTHONPATH 
+PYTHONPATH="/path/to/projekt/models":$PYTHONPATH 
+PYTHONPATH="/path/to/projekt/experiments":$PYTHONPATH 
+PYTHONPATH="/path/to/projekt/feature_ablation":$PYTHONPATH 
+PYTHONPATH="/path/to/projekt/spotify_API":$PYTHONPATH 
+export PYTHONPATH
+``` 
+
 ## Vorraussetzungen 
 Um den Code für das Projekt und die Übungen ausführen zu können 
 müssen git und python 3.11 oder eine ähnliche python Version installiert sein. Die benötigten Bibliothen für die Übungen bzw. für das Projekt stehen jeweils in 2 unterschiedlichen `requirements.txt` Dateien.
