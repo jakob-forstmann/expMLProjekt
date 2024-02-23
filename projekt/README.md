@@ -9,9 +9,16 @@
     - [Train-Test Split](#train-test-split)
     - [Daten Verteilung](#datenverteilung)
 - Experimente 
-    - [DT](#optimierung-der-hyperparameter-für-den-decision-tree)
+    - [DT](#Decision-Tree)
+    - [Random Forest](#random-forest)
+    - [lineare Regression](#lineare-regression)
+    - [Neuronal Network](#neuronal-network)
 - Evaluierung 
     - [Baselines](#evaluierung-der-baselines)
+    - [Modell Evaluation](#evalierung-der-modelle)
+    - [Feature Importance](#feature-importance)
+- Ausblick
+    - [mögliche Anwendung](#mögliche-anwendung-Songs-vorschlagen)
 
 
 
@@ -104,24 +111,6 @@ Insgesamt gibt es 1362 verschiedene Werte für die Valence, davon aber nur 68 ve
 112 Werte nur 2x mal und 71 Werte nur 3x mal auf. 
 
 ![.Werte_verteilung](plots/valence_distribution.png)
-
-
-## Baselines
-Insgesamt wurden drei verschiedene Baselines implementiert. Die Mean und die Majority Baseline nehmen dabei den Mittelwert von ca. 0.51 bzw den häufigsten 
-Wert von ca 0.961 als Vorraussage. Die Random Baseline dagegen zieht bei der Initialisierung einen zufälligen Wert aus dem Datenset und berücksichtigt dabei die 
-oben beschriebene Werteverteilung. Für jeden Wert nimmt die Random Baseline dann den am Anfang zufällig gezogen Wert als Vorrausage.
-
-## Evaluierung der Baselines:
-Die Evaluierung wurden mit  mit 5 facher Kreuzvalidierung durchgeführt.Dabei benutzt sklearn für die Kreuzvalidierung den negatierten Fehler
-für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
-![Baselines](plots/baseline_evaluation.png)
-
-Dabei messen beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten valence und der tatsächlichen valence des aktuellen Songs angeben in rationalen Zahlen zwischen 0 und 1 ist. Eine niedriger Wert bedeutet dabei,dass die Vorhersage des Modells recht gut war da die Differenz zwischen dem vorhergesagten und der Gold valence gering ist. Dabei kann der Root Mean Squared Error(im Folgenden RMSE) als die Standardabweichung der Residuals die sich aus der Differenz zwischen der Vorhersage und dem tatsächlichen Wert berechnen interpretiert werden. Der MAE dagegen kann interpretiert werden als durschnittlicher Fehler bzw.Abweichung
-der Vorhersage angegeben in Prozent.
-
-Die Mean Baseline hat dabei für beide Metriken am besten performt,sie liegt mit einem MAE von gerundet -0.2348 etwa im Durschnitt etwa 23% neben dem tatsächlichen 
-Wert bei einer Standardabweichung von ca. 19%. Der Grund warum die Mean Baseline so gut abschneidet ist,dass der Durschnitt von etwa 0.51 im Intervall der häufigsten Werte liegt. Dadurch ist der Fehler der Mean Baseline in diesem Intervall schon mal kleiner als die Intervallbreite von 0.2 wodurch sich für die meisten Werte 
-eben jener niedriger Fehler ergibt. Für die Werte in dem linken Intervall,jenes mit den zeit häufigsten Werten ergibt sich ebenso ein Fehler von maximal 0.25 da der größte Wert in diesem Intervall ca. 0.795 der Fehler ca. 0.795-0.51 $\approx$ 0.25 ist. Zudem liegen die 5 häufigsten Werte welche jeweils 68x vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt was wiederum ein Grund für die Performanz er Mean Baseline ist. Analog dazu hat die Majority Baseline hat am schlechsten abgeschnitten denn der häufigst Wert für die Valence,0.961,liegt nicht in dem liegen nicht in dem häufigsten Intervall in dem auch der Mittelwert liegt.
 
 
 ## Decision Tree
@@ -244,7 +233,26 @@ Layer,mit logistic regression als Aktivierungsfunktion,mit alpha=0.1,dem adam Op
 Verfahren haben dabei keine Rolle gespielt. Die Resultate für die übrigen Kombinationen von Hyperparametern finden 
 sich in dem Ordner `evaluation_results` in den Dateien `mlp_parameter_4_layers.csv` bzw. `mlp_parameter_2_layers.csv`
 
-## Vergleich der Modelle:
+
+## Baselines
+Insgesamt wurden drei verschiedene Baselines implementiert. Die Mean und die Majority Baseline nehmen dabei den Mittelwert von ca. 0.51 bzw den häufigsten 
+Wert von ca 0.961 als Vorraussage. Die Random Baseline dagegen zieht bei der Initialisierung einen zufälligen Wert aus dem Datenset und berücksichtigt dabei die 
+oben beschriebene Werteverteilung. Für jeden Wert nimmt die Random Baseline dann den am Anfang zufällig gezogen Wert als Vorrausage.
+
+## Evaluierung der Baselines:
+Die Evaluierung wurden mit  mit 5 facher Kreuzvalidierung durchgeführt.Dabei benutzt sklearn für die Kreuzvalidierung den negatierten Fehler
+für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
+![Baselines](plots/baseline_evaluation.png)
+
+Dabei messen beide Metriken messen wie groß die Differenz ist zwischen dem vorhergesagten valence und der tatsächlichen valence des aktuellen Songs angeben in rationalen Zahlen zwischen 0 und 1 ist. Eine niedriger Wert bedeutet dabei,dass die Vorhersage des Modells recht gut war da die Differenz zwischen dem vorhergesagten und der Gold valence gering ist. Dabei kann der Root Mean Squared Error(im Folgenden RMSE) als die Standardabweichung der Residuals die sich aus der Differenz zwischen der Vorhersage und dem tatsächlichen Wert berechnen interpretiert werden. Der MAE dagegen kann interpretiert werden als durschnittlicher Fehler bzw.Abweichung
+der Vorhersage angegeben in Prozent.
+
+Die Mean Baseline hat dabei für beide Metriken am besten performt,sie liegt mit einem MAE von gerundet -0.2348 etwa im Durschnitt etwa 23% neben dem tatsächlichen 
+Wert bei einer Standardabweichung von ca. 19%. Der Grund warum die Mean Baseline so gut abschneidet ist,dass der Durschnitt von etwa 0.51 im Intervall der häufigsten Werte liegt. Dadurch ist der Fehler der Mean Baseline in diesem Intervall schon mal kleiner als die Intervallbreite von 0.2 wodurch sich für die meisten Werte 
+eben jener niedriger Fehler ergibt. Für die Werte in dem linken Intervall,jenes mit den zeit häufigsten Werten ergibt sich ebenso ein Fehler von maximal 0.25 da der größte Wert in diesem Intervall ca. 0.795 der Fehler ca. 0.795-0.51 $\approx$ 0.25 ist. Zudem liegen die 5 häufigsten Werte welche jeweils 68x vorkommen wieder genau in dem häufigsten Intervall in dem auch die Mean Baseline liegt was wiederum ein Grund für die Performanz er Mean Baseline ist. Analog dazu hat die Majority Baseline hat am schlechsten abgeschnitten denn der häufigst Wert für die Valence,0.961,liegt nicht in dem liegen nicht in dem häufigsten Intervall in dem auch der Mittelwert liegt.
+
+
+## Evalierung der Modelle:
 
 ![](plots/model_evaluation.png)
 Der Plot zeigt die Ergebnisse auf dem Evaluation Dataset.
@@ -270,7 +278,7 @@ besser als die beiden anderen Baselines.
 Der Plot unten visualisiert das schlechtere Abschneiden des Neuronal Networks. Man sieht,dass die Residuals für viele Wert sowohl große positive wie auch negative Zahlen annehmmen,d.h. die Residuals sind recht groß. Dabei gilt,je größer die Residuals desto weiter weg ist die Prediction von dem tatsächlichem Wert.
 ![](plots/neuronal_network_residuals_vs_actual_values.png)
 
-### Feature Importance der einzelnen Spalten
+## Feature Importance:
 |modell| Feature Kombination | MEA über 5 Folds | RMSE| 
 |------|----------------------|---------------------------|-------------------|
 | lineares Modell|danceability,track_name,tempo,mode|-0.2144| -0.176
@@ -297,7 +305,7 @@ Interessant ist,jedoch dass danceability für den DT deutlich wichtiger scheint 
 als wichtiger als das feature tempo,jedoch mit einem Unterschied von 0.038 
 im Gegensatz zum DT mit einem Unterschied von 0.2789.
 
-## Die 20 wichtigsten Wörter für den Songtitel
+### Die 20 wichtigsten Wörter für den Songtitel
 Die 20 wichtigsten Wörtern  für den DT
 ![](plots/word_importance_dt.png)
 
@@ -322,3 +330,38 @@ gemeinsame Wörter:
 | remastered|0.008607|0.004918| 5 |8|
 |version| 0.009785|0.005344|3|7|
 
+
+## mögliche Anwendung: Songs Vorschläge basierend auf den Vorhersagen
+Die Songs wurden zufällig aus dem Testdatensplit gesampelt und stammen wie die ursprünglichen Songs von der Spotify API.
+Um die empfohlenen Songs basierend auf einem Song zu bekommen wurde die Spotify API genutzt wobei bei dieser nur die target 
+Valence als Parameter für die Generierung genutzt wurde. Dabei wurde für die Songempfehlungen angenommen,dass die vorhergesagte Stimmung der tatsächlichen Stimmung entspricht. Darüber hinaus habe ich ein neuer Spotify Account genutzt für die Empfehlungen
+damit diese nicht basierend bisher meiner bisher gehörten Songs generiert werden. Die Vorhersagen für die Stimmung wurden aus Perfomance mit einem 
+DT durchgeführt.
+
+| Song Name| vorgeschlagene Songs basierend auf der tatsächlichen Stimmung|vorgeschlagene Songs basierend auf der vorhergesagten Stimmung|
+|----------|---------------------|-------------------------------|
+|No Se De Ella "My Space"|No Se De Ella "My Space",Préndelo,Ella Me Pide Something,Juguete,No Te Vas|Wasa Wasa,Esta Cabron (Remix) feat.[...],Gata Gangster,Galactic Blues,Hold You Down (feat. Don Omar) - The Eliel Mix|
+|Driving Ms Daisy|A Letter To My Younger Self (feat. Logic),Everybody,Ni**as In Paris,RAP DEVIL,Big Fish|RNP (feat. Anderson .Paak),All I Think About,The Recipe (Black Hippy Remix) - Bonus Track,Nuketown (feat. Juice WRLD),Too Many Years|
+|Bleeding Love|Beautiful Girls,1973,4 Minutes (feat. Justin Timberlake & Timbaland),Breathless,Sweet Dreams|Break Your Heart,Hall of Fame (feat. will.i.am),Unwritten,Beautiful,Glamorous|
+|Tonight|Pimp'in the Sticks,Redneck Anthem (feat. Upchurch),I'm Down,Good out Here,Country Boy Livin'|Livin' in a Country Song,Dip-N-Brews,Ice Cold Beer,Bartender (Sittin' At A Bar),By The Fire|
+|Cryin|The Boys Are Back In Town,Up Around The Bend,Last Kiss,Summer Of '69,Walk Of Life|Gimme All Your Lovin,Youth Gone Wild,New Year's Day,Come Together,Jack & Diane|
+
+Zur besseren Vergleichbarkeit der Vorschläge finden sich in der Tabelle
+unten die vorhergesagte und die tatsächliche Stimmung.
+|Song Name| gold valence| vorhergesagte Valence|
+|---------|-------------|----------------------|
+|No Se De Ella "My Space"|0.5290|0.62952475|
+|Driving Ms Daisy|0.2250|0.55327268|
+|Bleeding Love| 0.5320|0.49459547|
+|Tonight| 0.0410| 0.47383333| 
+|Cryin|0.0943|0.40728032|
+
+
+Bei den Vorschlägen fällt auf,dass bei dieser zufälligen ausgewählten Stichprobe keine der Song Epfehlungen basierend auf der Vorhersage mit den tatsächlichen Song Empfehlung übereinstimmt. Damit lässt sich vermuten,dass ein Modell das durschnittlich ca.21% von der tatsächlichem Stimmungentfernt liegt,nur bedingt eignet um basierend auf seinen Vorhersagen Songs zu empfehlungen.
+Dabei muss jedoch angemerkt werden,dass in der Spotify für jedes verwendete
+Feature und für weitere ein target Value angegeben werden kann,genaueres 
+dazu steht in der [API Spezifikation](https://developer.spotify.com/documentation/web-api/reference/get-recommendations). Diese Features 
+werden  vermutlich in der tatsächlichen Spotify App für die Song Empfehlungen genutzt und haben vermutlich ebenfalls einen Einfluss auf die Vorschläge. Da alle verwendeten Features numerische Werte besitzten könnte 
+man im Prinzip z.B.ein unsupervised ML Algorithmus benutzten um bei unbekannten  oder auch neu erschienenen Songs die Features vorherzusagen.
+Schlussendlich könnte man mit diesen Features dann vermutlich bessere 
+Songempfehlungen generieren.

@@ -15,7 +15,6 @@ def sample_songs_from_dataset():
     spotify_dataset = create_dataset(lambda:feature_columns)
     track_ids = spotify_dataset["track_id"]
     spotify_songs = spotify_dataset.loc[:,spotify_dataset.columns!="track_id"]
-    print(spotify_songs.head(2))
     _,x_test,_,y_test = split_data(spotify_songs)
     x_test["valence"] = y_test
     x_test["track_id"] = track_ids
@@ -37,7 +36,7 @@ def retrieve_recommendation(songs,valence):
     track_recommendations = {}
     for _,song in songs.iterrows():
         track_id,_,track_name= song
-        results = spotify.recommendations(seed_tracks=[track_id],target_valence=valence,limit=5)
+        results = spotify.recommendations(seed_tracks=[track_id],target_valence=valence,limit=NUMBER_OF_RECOMMENDED_SONGS)
         recommend_track_names = []
         for i in range(0,NUMBER_OF_RECOMMENDED_SONGS):
             recommend_track_names.append(results["tracks"][i]["name"])
