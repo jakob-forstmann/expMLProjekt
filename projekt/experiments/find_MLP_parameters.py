@@ -1,12 +1,12 @@
 from sklearn.neural_network import MLPRegressor
-from models.preprocessing import build_model
+from models.preprocessing import build_model,create_dataset,split_data
 from models.evaluation import perform_grid_search_cv,evaluate_experiments
 
 evaluation_parameter = {
                 "evaluation_metrics": ["neg_root_mean_squared_error","neg_mean_absolute_error"],
-                "param_to_test":[{  "model__activation":["logistic"],
-                                    "model__hidden_layer_sizes":[(100,100),(100,100,100),(100,100,100,100)],
-                                    "model__solver":["adam"],
+                "param_to_test":[{  "model__activation":["logistic","tanh"],
+                                    "model__hidden_layer_sizes":[(50,100),(100,100,100)],
+                                    "model__solver":["adam","sgd"],
                                     "model__alpha":[0.01,0.1]}]
 }
 
@@ -19,7 +19,7 @@ def get_mlp_for_experiments():
 def get_optimized_mlp():
     """ helper function to get the MLP with 
         the best found hyperparameters"""
-    return MLPRegressor(hidden_layer_sizes=(100,100),activation="logistic",alpha=0.1)
+    return MLPRegressor(hidden_layer_sizes=(50,100),activation="logistic",alpha=0.1)
 
 def find_mlp_parameters():
     """performs grid search CV with the parameters above 
@@ -38,8 +38,16 @@ def evaluate_default_mlp():
     RMSE_result_30_estim,MEA_result_30_estim = evaluate_experiments(piped_model)
     return RMSE_result_30_estim,MEA_result_30_estim
 
-
 if __name__ =="__main__":
     # might take a long time 
-   find_mlp_parameters()
-   print(evaluate_default_mlp())
+    #find_mlp_parameters()
+    #print(evaluate_default_mlp())
+    opt_mlp  = get_mlp_for_experiments()
+    piped_mlp = build_model(opt_mlp)
+    songs = create_dataset()
+    X_train,x_test,y_train,y_test = split_data(songs)
+    piped_mlp.fit(X_train,y_train)
+    print(piped_mlp[1].loss_curve_)
+    print(piped_mlp[1].validation_scores_)
+
+

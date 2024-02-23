@@ -1,7 +1,8 @@
 from preprocessing import build_model,create_dataset,split_data
-from find_DT_parameters import get_optimized_dt
-from find_RDF_parameters import get_optimized_rdf
-from find_lasso_parameters import get_optimized_linear_model
+from experiments.find_DT_parameters import get_optimized_dt
+from experiments.find_RDF_parameters import get_optimized_rdf
+from experiments.find_lasso_parameters import get_optimized_linear_model
+from experiments.find_MLP_parameters import get_optimized_mlp
 from sklearn.decomposition import TruncatedSVD
 from sklearn.inspection import DecisionBoundaryDisplay
 from sklearn.metrics import PredictionErrorDisplay
@@ -35,7 +36,7 @@ def plot_decision_boundaries(regressor):
     plt.show()
 
 
-def plot_linear_reg_residuals(regressor):
+def plot_residuals(regressor):
     """plots the predictions of the linear model 
         with the residuals"""
     spotify_songs = create_dataset()
@@ -93,11 +94,11 @@ def plot_predictions(model):
 if __name__ =="__main__":
     opt_rdf = get_optimized_rdf()
     opt_dt = get_optimized_dt()
+    opt_MLP = get_optimized_mlp()
     opt_linear_modell = get_optimized_linear_model()
-    plot_linear_reg_residuals(opt_linear_modell)
+    plot_residuals(opt_MLP)
     plot_decision_boundaries(opt_dt)
     plot_decision_boundaries(opt_rdf)
     plot_predictions(opt_linear_modell)
     plot_predictions(opt_dt)
     plot_predictions(opt_rdf)
-
