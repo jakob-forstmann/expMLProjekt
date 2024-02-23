@@ -317,7 +317,7 @@ Als eine mögliche Verbesserung könnte man eine Liste von Stopwörtern benutzte
 
 ## Songs Vorschläge basierend auf den Vorhersagen des Modells
 Die Songs wurden zufällig aus dem Testdatensplit gesampelt und stammen wie die ursprünglichen Songs von der Spotify API.
-Um die empfohlenen Songs basierend auf einem Song zu bekommen wurde aus der Spotify API die Funktion [get_recommendations](https://developer.spotify.com/documentation/web-api/reference/get-recommendations)genutzt wobei in diesem Fall nur die target Valence als Parameter genutzt wurde. Dabei wurde für die Songempfehlungen angenommen,dass die vorhergesagte Stimmung der tatsächlichen Stimmung entspricht. Darüber hinaus habe ich ein neuer Spotify Account genutzt für die Empfehlungen
+Um die empfohlenen Songs basierend auf einem Song zu bekommen wurde aus der Spotify API die Funktion [get_recommendations](https://developer.spotify.com/documentation/web-api/reference/get-recommendations) genutzt wobei in diesem Fall nur die target Valence als Parameter genutzt wurde. Dabei wurde für die Songempfehlungen angenommen,dass die vorhergesagte Stimmung der tatsächlichen Stimmung entspricht. Darüber hinaus habe ich ein neuer Spotify Account genutzt für die Empfehlungen
 damit diese nicht basierend bisher meiner bisher gehörten Songs generiert werden. Zuletzt ist wichtig zu erwähnen,dass die Vorhersagen für die Stimmung  aus Perfomancegründen mit einem DT durchgeführt wurden.
 
 | Song Name| vorgeschlagene Songs basierend auf der tatsächlichen Stimmung|vorgeschlagene Songs basierend auf der vorhergesagten Stimmung|
@@ -346,4 +346,12 @@ dazu steht in der [API Spezifikation](https://developer.spotify.com/documentatio
 werden  vermutlich in der tatsächlichen Spotify App für die Song Empfehlungen genutzt und haben vermutlich ebenfalls einen Einfluss auf die Vorschläge. Da alle verwendeten Features numerische Werte besitzten könnte 
 man im Prinzip ein unsupervised ML Algorithmus benutzten um bei unbekannten  oder auch neu erschienenen Songs die Features vorherzusagen. Mit diesem Verfahren 
 könnte man mit diesen Features dann vermutlich bessere Songempfehlungen generieren.
+
+
+## Ausblick
+Mit genügend Zeit könnte man die Parameter für die TF-IDF Transformation noch optimieren,z.B, eine Liste an Stopwörtern benutzen oder die Songtitel vorher 
+lemmatisieren und/oder stemmen. Da in sklearn allerdings kein Lemmatizer integretiert ist,müsste man dafür eine andere Bibliothek z.B.spacy nutzten ebenso 
+wie für die Liste an Stopwörtern. Darüber hinaus könnte man versuchen den Songtext als weiteres Feature zu nutzen denn laut einer [Spotify Studie](https://research.atspotify.com/2022/07/the-contribution-of-lyrics-and-acoustics-to-collaborative-understanding-of-mood) hat dieser einen größeren Einfluss als das ebenfalss
+in der Spotify API enthalte Feature acousticness. Für das RNN Model müsste man noch die Anzahl an Epochen von 10 auf z.B. 100 oder gar 1000 erhöhen um 
+Ergebnisse in einer annehmbaren Orndung zu erzielen oder sogar bessere Ergebnisse als der RDF.Zudem könnte man die Anzahl an Hidden Nodes im RNN optimieren genauso wie die Learning Rate. Zudem könnte man mit mehr Zeit das RNN länger trainieren und so hoffentlich bessere Ergebnisse erzielen. Zum Schluss könnte man noch ausgefeilterte Modelle nutzen z.B. ein bi-direktionales RNN , ein stacked RNN oder ein RNN mit Attention Mechanismus.
 
