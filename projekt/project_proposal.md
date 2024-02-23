@@ -10,7 +10,7 @@ Vorhersage der Stimmung eines Songs genutzt wird.
 Das Datenset ist verfügbar unter https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs
 
 ### Anzahl der Datenpunkte:
-Das Datenset hat 23 verschiedene Attribute  mit insgesamt 32.833 verschiedene Songs. 
+Das Datenset hat 23 verschiedene Attribute mit insgesamt 32.833 verschiedene Songs. 
 Leider enthalten einige Songs für die valence Strings als Werte, sodass nach dem Aussortieren noch 32714 Songs übrig bleiben.
 Von den 23 Attributen werden 5 für die Vorhersage genutzt werden.
 
@@ -38,7 +38,7 @@ mögliche Algorithen:
 - Linear Regression bzw. SVMs  für Regression je nachdem wie viel Zeit noch bleibt.
 
 ## Evaluation des Modells:
-Da es sich um ein Regression Problem  handelt sind Metriken wie accuarcy sind leider nicht anwendbar da sie den Output des Modells mit der Gold Klasse vergleichen. mögliche Metriken sind dann:
+Da es sich um ein Regression Problem handelt sind Metriken wie accuarcy sind leider nicht anwendbar da sie den Output des Modells mit der Gold Klasse vergleichen. Folgende Metriken sind stattdessen möglich:
 - Mean Squared Error,Root Mean Squarred Error, quasi der gleich wie vorher nur mit einer Wurzel
 - normalized Root Mean Squarred Error 
 - Mean Absolute Error 

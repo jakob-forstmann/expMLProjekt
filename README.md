@@ -40,7 +40,7 @@ Um mithilfe der Spotify API Songs Empfehlungen zu generieren sind folgende Schri
 2. eine neue Datei `API_Keys.py` im Ornder `spotify_API` erstellen und die CLIENT ID und das CLIENT SECRET dort hin kopieren
 
 
-## Vorraussetzungen 
+## Voraussetzungen 
 Um den Code für das Projekt und die Übungen ausführen zu können 
 müssen git und python 3.11 oder eine ähnliche python Version installiert sein. Die benötigten Bibliothen für die Übungen bzw. für das Projekt stehen jeweils in 2 unterschiedlichen `requirements.txt` Dateien.
 Die Vorrausetzungen können mit den folgenden Schritten installiert werden.
