@@ -33,6 +33,12 @@ PYTHONPATH="/path/to/projekt/spotify_API":$PYTHONPATH
 export PYTHONPATH
 ``` 
 
+Um mithilfe der Spotify API Songs Empfehlungen zu generieren sind folgende Schritte notwendig:
+0. ggf.Spotify Account erstellen(egal ob premium oder free Account)
+1. Spotify CLIENT ID und CLIENT SECRET generieren, eine Anleitung gibt es [hier](https://developer.spotify.com/documentation/web-api)
+2. eine neue Datei `API_Keys.py` im Ornder `spotify_API` erstellen und die CLIENT ID und das CLIENT SECRET dort hin kopieren
+
+
 ## Vorraussetzungen 
 Um den Code für das Projekt und die Übungen ausführen zu können 
 müssen git und python 3.11 oder eine ähnliche python Version installiert sein. Die benötigten Bibliothen für die Übungen bzw. für das Projekt stehen jeweils in 2 unterschiedlichen `requirements.txt` Dateien.

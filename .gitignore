@@ -1,2 +1,3 @@
-.venv
-.*zip
+__pycache__/
+.cache
+/spotify_API/API_Keys.py
