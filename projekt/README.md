@@ -9,7 +9,7 @@
     - [Train-Test Split](#train-test-split)
     - [Daten Verteilung](#datenverteilung)
 - Experimente 
-    - [DT](#Decision-Tree)
+    - [Decision Tree](#Decision-Tree)
     - [Random Forest](#random-forest)
     - [lineare Regression](#lineare-regression)
     - [Neuronal Network](#neuronal-network)
@@ -125,7 +125,7 @@ der Werte für die Stimmung modelliert approximieren.
 Ein Decision Tree hat dabei den Vorteil dass er leicht zu interpretieren,da er durch seine Baumstruktur als eine Kaskade von if-else Abfragen aufgefasst werden kann.
 Außerdem ist er vergleichsweise schneller Algorithmus, von den in diesem Projekt ausprobierten Algorithmen war bis auf die Baselines nur die Lineare Regression schneller. Ein Nachteil ist,dass Decision Tree anfällig für Overfitting sind. Um Overfitting zu vermeiden habe ich verschiedene Hyperparameter des DT ausprobiert.Die Ergebnisse der Hyperparamter Optimierung in dem nächsten Abschnitt beschrieben werden.
 
-## Optimierung der Hyperparameter für den Decision Tree: 
+### Optimierung der Hyperparameter für den Decision Tree: 
 ![max_depth_evaluation_30_estimators](plots/dt_mse_evaluation.png)
 
 Wie in dem Plot zu erkennen ist,verschlechtert der RMSE ab einer max_depth von 7 schneller ab als der MAE sich verbessert. Die blaue bzw. orange Fächen um die Kurven sind dabei die jeweilige Standabweichung über die 5 verwendeten Folds.Zusammenfassend habe ich mich für eine `max_depth` von 7 entschieden,da sich ab diesem Wert die Vorhersage nicht bessert aber die Standardabweichung des Fehler,der RMSE, sich vergrößert.
@@ -152,7 +152,7 @@ randomisierte Bäume, wodurch sich eine feinere Unterteilung des Raumes ergibt.D
 d.h. der RDF nimmt jenen Wert für den die meisten der 30 DT vorhersagen,also gewissermaßen für "abstimmen". Wie beim DT kann durch die hier feinere Aufteilung des Raumes in RDF die glockenkurven ähnliche Funktion die im vier dimensionalen Raum die Verteilung der Werte für die Stimmung modelliert approximieren.
 Wie für den DT habe ich für den RDF ebenfalls verschiedene Hyperparameter ausprobiert.
 
-## Hyperparameter für den Random Forest:
+### Hyperparameter für den Random Forest:
 Als erstes habe ich die Anzahl an DT die der RDF benutzt variiert.
 | Anzahl DT | max_depth | gerundeter höchster RMSE über 5 Folds | dazugehöriger MAE über 5 folds
 |-----------|-------------|---------------------------------------|------------------------------|
@@ -191,7 +191,7 @@ Im Prinzip legt die lineare Regression eine Hyperebene in den 4 dimensionalem Ra
 Darüber hinaus habe ich noch lineares Modell mit R1 Regularisierung,auch Lasso genannt,ausprobiert. Laut sklearn Dokumentation bevorzugt das Lasso Modell Koeffizienten 
 die weniger sparse also weniger 0en enthalten.
 
-## Hyperparameter für die regularisierte Lineare Regression:
+### Hyperparameter für die regularisierte Lineare Regression:
 ![max_depth_30_estimators_evaluation](plots/lasso_model_without_intercept.png)
 
 
@@ -240,7 +240,7 @@ Insgesamt wurden drei verschiedene Baselines implementiert. Die Mean und die Maj
 Wert von ca 0.961 als Vorraussage. Die Random Baseline dagegen zieht bei der Initialisierung einen zufälligen Wert aus dem Datenset und berücksichtigt dabei die 
 oben beschriebene Werteverteilung. Für jeden Wert nimmt die Random Baseline dann den am Anfang zufällig gezogen Wert als Vorrausage.
 
-## Evaluierung der Baselines:
+### Evaluierung der Baselines:
 Die Evaluierung wurden mit  mit 5 facher Kreuzvalidierung durchgeführt.Dabei benutzt sklearn für die Kreuzvalidierung den negatierten Fehler
 für die Vorhersage auf dem Testdatenset aber den nicht negierten Fehler.
 ![Baselines](plots/baseline_evaluation.png)
@@ -358,7 +358,7 @@ unten die vorhergesagte und die tatsächliche Stimmung.
 |Cryin|0.0943|0.40728032|
 
 
-Bei den Vorschlägen fällt auf,dass bei dieser zufälligen ausgewählten Stichprobe keine der Song Epfehlungen basierend auf der Vorhersage mit den tatsächlichen Song Empfehlung übereinstimmt. Damit lässt sich vermuten,dass ein Modell das durschnittlich ca.21% von der tatsächlichem Stimmungentfernt liegt,nur bedingt eignet um basierend auf seinen Vorhersagen Songs zu empfehlungen.
+Bei den Vorschlägen fällt auf,dass bei dieser zufälligen ausgewählten Stichprobe keine der Song Epfehlungen basierend auf der Vorhersage mit den tatsächlichen Song Empfehlung übereinstimmt. Damit lässt sich vermuten,dass ein Modell das durschnittlich ca.21% von der tatsächlichem Stimmungentfernt liegt,nur bedingt eignet ist um basierend auf seinen Vorhersagen Songs zu empfehlungen.
 Dabei muss jedoch angemerkt werden,dass in der Spotify für jedes verwendete
 Feature und für weitere ein target Value angegeben werden kann,genaueres 
 dazu steht in der [API Spezifikation](https://developer.spotify.com/documentation/web-api/reference/get-recommendations). Diese Features 
@@ -366,3 +366,6 @@ werden  vermutlich in der tatsächlichen Spotify App für die Song Empfehlungen 
 man im Prinzip z.B.ein unsupervised ML Algorithmus benutzten um bei unbekannten  oder auch neu erschienenen Songs die Features vorherzusagen.
 Schlussendlich könnte man mit diesen Features dann vermutlich bessere 
 Songempfehlungen generieren.
+
+
+## Ausblick

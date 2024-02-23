@@ -3,7 +3,7 @@
 ## Beschreibung:
 Das Repository enthält die Lösungen für die Übungsaufgaben 
 und das Projekt für das Proseminar Experimente gestalten fürs maschinelle Lernen im WS 23/24. 
-Jede Aufgabe befindet sich in einem extra Ordner mit einem eignenem README.
+Jede Aufgabe befindet sich in einem extra Ordner mit einem eigenem README.
 Der Ordner Projekt enthält das Datenset,den Code und die Ergebnisse sowie Plots für das Projekt.
 
 ## Übersicht:
@@ -34,6 +34,7 @@ export PYTHONPATH
 ``` 
 
 Um mithilfe der Spotify API Songs Empfehlungen zu generieren sind folgende Schritte notwendig:
+
 0. ggf.Spotify Account erstellen(egal ob premium oder free Account)
 1. Spotify CLIENT ID und CLIENT SECRET generieren, eine Anleitung gibt es [hier](https://developer.spotify.com/documentation/web-api)
 2. eine neue Datei `API_Keys.py` im Ornder `spotify_API` erstellen und die CLIENT ID und das CLIENT SECRET dort hin kopieren
@@ -51,6 +52,19 @@ pip install -r excercise_requirements.txt
 # und die Übungen 
 pip install -r projekt/project_requirements.txt
 ```
+
+## Benutzung:
+Der Code für die einzelnen Übungen kann direkt ausgeführt werden nachdem die Voraussetzungen installiert sind.
+Für das Projekt gibt es mehrere Möglichkeiten:
+
+1. Für die Ergebnisse der verwendeten Modelle kann die `main.py` in dem Order `projekt` wie folgt aufgerufen werden:
+    ````
+    # model name ersetzen oder weglassen,dann wird als Default Modell die Majority Baseline genutzt 
+    python main.py --model {model_name}
+    # verfügbare Modelle anzeigen
+    python  main.py --help
+    ````
+2. Die Dateien im Ordner `projekt` individuell ausführen,dies ist bei fast allen Dateien möglich
 
 ## Autor 
 - Jakob Forstmann 
