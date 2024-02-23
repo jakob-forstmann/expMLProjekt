@@ -18,7 +18,8 @@
     - [Modell Evaluation](#evalierung-der-modelle)
     - [Feature Importance](#feature-importance)
 - Ausblick
-    - [mögliche Anwendung](#mögliche-anwendung-Songs-vorschlagen)
+    - [Songs Vorschläge basierend auf den Vorhersagen des Modells](#songs-vorschläge-basierend-auf-den-vorhersagen-des-modells)
+
 
 
 
@@ -331,7 +332,7 @@ gemeinsame Wörter:
 |version| 0.009785|0.005344|3|7|
 
 
-## mögliche Anwendung: Songs Vorschläge basierend auf den Vorhersagen
+## Songs Vorschläge basierend auf den Vorhersagen des Modells
 Die Songs wurden zufällig aus dem Testdatensplit gesampelt und stammen wie die ursprünglichen Songs von der Spotify API.
 Um die empfohlenen Songs basierend auf einem Song zu bekommen wurde die Spotify API genutzt wobei bei dieser nur die target 
 Valence als Parameter für die Generierung genutzt wurde. Dabei wurde für die Songempfehlungen angenommen,dass die vorhergesagte Stimmung der tatsächlichen Stimmung entspricht. Darüber hinaus habe ich ein neuer Spotify Account genutzt für die Empfehlungen

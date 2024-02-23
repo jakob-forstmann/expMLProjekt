@@ -1,8 +1,7 @@
 # Projekt Vorschlag
 
 ## zu lösendes Problem:
-Problem: Stimmung eines Songs vorhersagen als Wert zwischen traurig(Wert 0 ) und fröhlich(Wert 1) vorhersagen.
-
+Stimmung eines Songs vorhersagen als Wert zwischen traurig(Wert 0 ) und fröhlich(Wert 1) vorhersagen.
 
 ## Datenset:
 Das Datenset enthält Songs die zwischen 1960 und 2020 veröffentlicht wurden und auf Spotify zu finden sind.
@@ -32,11 +31,12 @@ Von den 23 möglichen Attributen plane ich die die 5 Attribute :Geschwindigkeit 
 
 ## mögliche Algorithmen:
 Da die Spalte "valence" jeden Wert zwischen 0 und 1 annehmen kann wie in dem Datenset sichtbar wurde, gibt es keine festen Klassen.
-
+Es handelt sich also um ein Regression Problem.
+mögliche Algorithen:
 - Decision Tree
 - Random Forest Classifier 
-- Naives Bayes,falls er für Regression adaptiert werden kann, oder 
-Logistic Regression bzw. SVMs je nachdem wie viel Zeit noch bleibt.
+- Linear Regression bzw. SVMs  für Regression je nachdem wie viel Zeit noch bleibt.
+
 ## Evaluation des Modells:
 Da es sich um ein Regression Problem  handelt sind Metriken wie accuarcy sind leider nicht anwendbar da sie den Output des Modells mit der Gold Klasse vergleichen. mögliche Metriken sind dann:
 - Mean Squared Error,Root Mean Squarred Error, quasi der gleich wie vorher nur mit einer Wurzel
@@ -48,4 +48,4 @@ Da es sich um ein Regression Problem  handelt sind Metriken wie accuarcy sind le
 Vermutlich lässt sich keine hohe Performanz erzielen, jedoch ist meine 
 Hoffnung einen höheren Score als 0.5 zu erreichen. 
 Denn ansonsten würden die  Vorhesagen 50 % von den tatsächlichen Werten 
-abweichen. Dies entspricht dem Erwartungswert der Gleichverteilung zwischen 0 und 1,was bedeutet dass das Modell alle Werte als gleich wahrscheinlich betrachtet unabhängig von der Eingabe.
+abweichen. Dies entspricht dem Erwartungswert der Gleichverteilung zwischen 0 und 1,was bedeutet dass das Modell alle Werte als gleich wahrscheinlich betrachtet unabhängig von der Eingabe womit das Modell quasi einen Wert raten würde.
