@@ -45,11 +45,9 @@ Um den Code für das Projekt und die Übungen ausführen zu können
 müssen git und python 3.11 oder eine ähnliche python Version installiert sein. Die benötigten Bibliothen für die Übungen bzw. für das Projekt stehen jeweils in 2 unterschiedlichen `requirements.txt` Dateien.
 Die Vorrausetzungen können mit den folgenden Schritten installiert werden.
 ```
-# installiere die notwendigen Bibliotheken für die Übungen
 pip install -r excercise_requirements.txt
 
-# Oder installiere die notwendigen Bibliotheken für das Projekt 
-# und die Übungen 
+# Abhängigkeiten für Projekt & Übungen
 pip install -r projekt/project_requirements.txt
 ```
 
